@@ -21,7 +21,8 @@ var commands = []cli.Command{
 			cli.IntFlag{Name: "s, step", Usage: "step for splitting logs. (min)"},
 			cli.StringFlag{Name: "p, prefix", Usage: "prefix of splitted logs"},
 			cli.StringFlag{Name: "o, output", Usage: "directory for output"},
-			cli.StringFlag{Name: "l, log-format", Value: "tsv", Usage: "tsv or ssv. (default: tsv)"},
+			cli.StringFlag{Name: "l, log-format", Value: "tsv", Usage: "tsv or ssv (default: tsv)"},
+			cli.StringFlag{Name: "k, key", Value: "TODO", Usage: "object key format"},
 		},
 	},
 }
