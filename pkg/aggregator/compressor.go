@@ -7,14 +7,6 @@ func NewCompressor() *Compressor {
 	return &Compressor{}
 }
 
-func (c *Compressor) HasEpochFile(epoch string) bool {
-	return false
-}
-
-func (c *Compressor) AddEpoch(e *Epoch) {
-
-}
-
-func (c *Compressor) Compress(key, l string) {
+func (c *Compressor) Compress(epoch *Epoch, l string) {
 
 }
