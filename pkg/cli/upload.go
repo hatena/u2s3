@@ -17,6 +17,10 @@ func uploadCmd(c *cli.Context) error {
 	} else {
 		reader = lio.NewStdinReader()
 	}
-	agg := aggregator.NewAggregator(reader)
+	logFmt := c.String("log-format")
+	keyFmt := c.String("key")
+	output := c.String("output")
+	step := c.Int("step")
+	agg := aggregator.NewAggregator(reader, logFmt, keyFmt, output, step)
 	return agg.Run()
 }

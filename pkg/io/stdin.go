@@ -15,9 +15,9 @@ func NewStdinReader() *StdinReader {
 	}
 }
 
-func (r *StdinReader) Readln() (string, error) {
+func (r *StdinReader) Readln() ([]byte, error) {
 	l, _, err := r.reader.ReadLine()
-	return string(l), err
+	return l, err
 }
 
 func (r *StdinReader) Close() {}

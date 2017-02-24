@@ -1,6 +1,6 @@
 package io
 
 type BufferedReader interface {
-	Readln() (string, error)
+	Readln() ([]byte, error)
 	Close()
 }

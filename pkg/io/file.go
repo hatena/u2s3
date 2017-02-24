@@ -45,16 +45,16 @@ func (r *FileReader) ready() error {
 	return nil
 }
 
-func (r *FileReader) Readln() (string, error) {
-	l, _, err := r.reader.ReadLine()
+func (r *FileReader) Readln() ([]byte, error) {
+	l, err := r.reader.ReadBytes('\n')
 	if err == io.EOF {
 		err = r.ready()
 		if err != nil {
-			return "", err
+			return nil, err
 		}
 		return r.Readln()
 	}
-	return string(l), nil
+	return l, nil
 }
 
 func (r *FileReader) Close() {

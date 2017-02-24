@@ -1,5 +1,8 @@
 {
     "dependencies": {
+        "github.com/aws/aws-sdk-go": {
+            "branch": "master"
+        },
         "github.com/urfave/cli": {
             "branch": "master"
         }

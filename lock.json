@@ -1,10 +1,39 @@
 {
-    "memo": "05f5cdf0493bc92892fa39355af070a94ccc25b19a2e470a59442e4c7fa45828",
+    "memo": "b8cf3b6bbb591a5b68c1d69544dcb6164be1504f23ba58bc09840f3f51dfe490",
     "projects": [
+        {
+            "name": "github.com/aws/aws-sdk-go",
+            "branch": "master",
+            "revision": "106ddd8e308f1f57a8907b191a4ea94db104b3da",
+            "packages": [
+                "aws",
+                "aws/credentials",
+                "aws/session",
+                "service/s3",
+                "service/s3/s3iface",
+                "service/s3/s3manager"
+            ]
+        },
+        {
+            "name": "github.com/go-ini/ini",
+            "version": "v1.25.2",
+            "revision": "74bdc99692c3408cb103221e38675ce8fda0a718",
+            "packages": [
+                "."
+            ]
+        },
+        {
+            "name": "github.com/jmespath/go-jmespath",
+            "version": "0.2.2",
+            "revision": "3433f3ea46d9f8019119e7dd41274e112a2359a9",
+            "packages": [
+                "."
+            ]
+        },
         {
             "name": "github.com/urfave/cli",
             "branch": "master",
-            "revision": "0bdeddeeb0f650497d603c4ad7b20cfe685682f6",
+            "revision": "2526b57c56f30b50466c96c4133b1a4ad0f0191f",
             "packages": [
                 "."
             ]
