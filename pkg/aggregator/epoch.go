@@ -2,7 +2,8 @@ package aggregator
 
 import (
 	"bytes"
-	"compress/gzip"
+	//"compress/gzip"
+	gzip "github.com/klauspost/pgzip"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -27,7 +28,7 @@ func NewEpoch(epochKey, keyFmt, output string) (*Epoch, error) {
 	if err != nil {
 		return nil, err
 	}
-	w := gzip.NewWriter(fp)
+	w, _ := gzip.NewWriterLevel(fp, gzip.BestCompression)
 	return &Epoch{
 		fp:       fp,
 		writer:   w,
@@ -71,7 +72,7 @@ func (e *Epoch) Write(l []byte) {
 	if err != nil {
 		return
 	}
-	e.writer.Flush()
+	//e.writer.Flush()
 }
 
 func (e *Epoch) Close() {

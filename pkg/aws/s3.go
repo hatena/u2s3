@@ -18,7 +18,7 @@ type S3Cli struct {
 	bucket string
 }
 
-func NewS3Cli() *S3Cli {
+func NewS3Cli(bucket string) *S3Cli {
 	sess, err := session.NewSession()
 	if err != nil {
 		log.Fatal("Creating session is failed")
@@ -28,10 +28,10 @@ func NewS3Cli() *S3Cli {
 		log.Fatal("You must specify a region")
 	}
 	s3Svc := s3.New(sess)
-	return &S3Cli{s3Svc, "aaa"}
+	return &S3Cli{s3Svc, bucket}
 }
 
-func NewS3ForTest() *S3Cli {
+func NewS3ForTest(bucket string) *S3Cli {
 	s3Config := &aws.Config{
 		Credentials:      credentials.NewStaticCredentials("ACCESS_KEY", "SECRET_KEY", ""),
 		Endpoint:         aws.String("http://localhost:9000"),
@@ -44,7 +44,7 @@ func NewS3ForTest() *S3Cli {
 		log.Fatal("Creating session is failed")
 	}
 	s3Svc := s3.New(newSession)
-	return &S3Cli{s3Svc, "aaa"}
+	return &S3Cli{s3Svc, bucket}
 }
 
 func (c *S3Cli) Upload(key string, body io.ReadSeeker) error {

@@ -23,6 +23,7 @@ var commands = []cli.Command{
 			cli.StringFlag{Name: "o, output", Usage: "directory for output"},
 			cli.StringFlag{Name: "l, log-format", Value: "tsv", Usage: "tsv or ssv (default: tsv)"},
 			cli.StringFlag{Name: "k, key", Value: "{{.Output}}/{{.Year}}/{{.Month}}/{{.Day}}/{{.Hostname}}-{{.Year}}{{.Month}}{{.Day}}{{.Hour}}{{.Minute}}_{{.Seq}}.log.gz", Usage: "object key format"},
+			cli.StringFlag{Name: "b, bucket", Usage: "bucket name"},
 		},
 	},
 }

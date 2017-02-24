@@ -14,7 +14,7 @@ func TestParseEpoch(t *testing.T) {
 		{"time is after host", "host:127.0.0.1\ttime:24/Feb/2017:10:00:00 +0900", "20170224100000"},
 	}
 
-	a := NewAggregator(nil, "tsv", "", "", 30)
+	a := NewAggregator(nil, "tsv", "", "", "", 30)
 	for _, tt := range etests {
 		s := a.parseEpoch(tt.in)
 		if s != tt.out {

@@ -8,8 +8,8 @@ type Uploader struct {
 	cli *aws.S3Cli
 }
 
-func NewUploader() *Uploader {
-	cli := aws.NewS3ForTest()
+func NewUploader(bucket string) *Uploader {
+	cli := aws.NewS3ForTest(bucket)
 	return &Uploader{cli}
 }
 

@@ -21,10 +21,10 @@ type Aggregator struct {
 	output string
 }
 
-func NewAggregator(reader lio.BufferedReader, logFmt, keyFmt, output string, step int) *Aggregator {
+func NewAggregator(reader lio.BufferedReader, logFmt, keyFmt, output, bucket string, step int) *Aggregator {
 	mngr := NewEpochManager()
 	cmpr := NewCompressor()
-	up := NewUploader()
+	up := NewUploader(bucket)
 	return &Aggregator{
 		reader: reader,
 		mngr:   mngr,

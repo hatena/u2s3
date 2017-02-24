@@ -1,5 +1,5 @@
 {
-    "memo": "b8cf3b6bbb591a5b68c1d69544dcb6164be1504f23ba58bc09840f3f51dfe490",
+    "memo": "6ae54e6698393243bf93018a7cc3e74d6a9b0f20ca59bb05d0f6fdb9c9e8ddf9",
     "projects": [
         {
             "name": "github.com/aws/aws-sdk-go",
@@ -26,6 +26,38 @@
             "name": "github.com/jmespath/go-jmespath",
             "version": "0.2.2",
             "revision": "3433f3ea46d9f8019119e7dd41274e112a2359a9",
+            "packages": [
+                "."
+            ]
+        },
+        {
+            "name": "github.com/klauspost/compress",
+            "version": "v1.2.1",
+            "revision": "6c8db69c4b49dd4df1fff66996cf556176d0b9bf",
+            "packages": [
+                "flate"
+            ]
+        },
+        {
+            "name": "github.com/klauspost/cpuid",
+            "version": "v1.0",
+            "revision": "09cded8978dc9e80714c4d85b0322337b0a1e5e0",
+            "packages": [
+                "."
+            ]
+        },
+        {
+            "name": "github.com/klauspost/crc32",
+            "version": "v1.1",
+            "revision": "cb6bfca970f6908083f26f39a79009d608efd5cd",
+            "packages": [
+                "."
+            ]
+        },
+        {
+            "name": "github.com/klauspost/pgzip",
+            "version": "v1.0.1",
+            "revision": "e1189db7261c60cf75c77d573014936620d3d119",
             "packages": [
                 "."
             ]
