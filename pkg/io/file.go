@@ -6,6 +6,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	gzip "github.com/klauspost/pgzip"
 )
 
 type FileReader struct {
@@ -13,11 +14,12 @@ type FileReader struct {
 	pos    int
 	fp     *os.File
 	reader *bufio.Reader
+	gzipped bool
 }
 
-func NewFileReader(f string) (*FileReader, error) {
+func NewFileReader(f string, gzipped bool) (*FileReader, error) {
 	matches, _ := filepath.Glob(f)
-	r := &FileReader{matches, 0, nil, nil}
+	r := &FileReader{matches, 0, nil, nil, gzipped}
 	err := r.ready()
 	if err != nil {
 		return nil, err
@@ -40,7 +42,15 @@ func (r *FileReader) ready() error {
 		}
 		r.pos += 1
 		r.fp = fp
-		r.reader = bufio.NewReader(r.fp)
+		if r.gzipped {
+			g, err := gzip.NewReader(r.fp)
+			if err != nil {
+				return err
+			}
+			r.reader = bufio.NewReader(g)
+		} else {
+			r.reader = bufio.NewReader(r.fp)
+		}
 	}
 	return nil
 }

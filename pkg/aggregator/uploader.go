@@ -14,8 +14,8 @@ func NewUploader(bucket string) *Uploader {
 }
 
 func (u *Uploader) Upload(e *Epoch) error {
-	e.writer.Flush()
 	e.writer.Close()
+	e.buf.Flush()
 
 	seq := 0
 	key := ""

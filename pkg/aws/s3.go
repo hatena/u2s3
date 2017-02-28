@@ -13,6 +13,8 @@ import (
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 )
 
+const MAX_RETRY = 5
+
 type S3Cli struct {
 	s3Svc  s3iface.S3API
 	bucket string
@@ -20,6 +22,7 @@ type S3Cli struct {
 
 func NewS3Cli(bucket string) *S3Cli {
 	sess, err := session.NewSession()
+	sess.Config.MaxRetries = aws.Int(MAX_RETRY)
 	if err != nil {
 		log.Fatal("Creating session is failed")
 	}
@@ -38,6 +41,7 @@ func NewS3ForTest(bucket string) *S3Cli {
 		Region:           aws.String("us-east-1"),
 		DisableSSL:       aws.Bool(true),
 		S3ForcePathStyle: aws.Bool(true),
+		MaxRetries:       aws.Int(MAX_RETRY),
 	}
 	newSession, err := session.NewSession(s3Config)
 	if err != nil {

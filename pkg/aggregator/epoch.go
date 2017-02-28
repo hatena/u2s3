@@ -9,10 +9,12 @@ import (
 	"os"
 	"text/template"
 	"time"
+	"bufio"
 )
 
 type Epoch struct {
 	fp       *os.File
+	buf      *bufio.Writer
 	writer   *gzip.Writer
 	epochKey string
 	keyFmt   string
@@ -28,9 +30,11 @@ func NewEpoch(epochKey, keyFmt, output string) (*Epoch, error) {
 	if err != nil {
 		return nil, err
 	}
-	w, _ := gzip.NewWriterLevel(fp, gzip.BestCompression)
+	buf := bufio.NewWriter(fp)
+	w, _ := gzip.NewWriterLevel(buf, gzip.BestCompression)
 	return &Epoch{
 		fp:       fp,
+		buf:      buf,
 		writer:   w,
 		epochKey: epochKey,
 		keyFmt:   keyFmt,
@@ -72,11 +76,11 @@ func (e *Epoch) Write(l []byte) {
 	if err != nil {
 		return
 	}
-	//e.writer.Flush()
 }
 
 func (e *Epoch) Close() {
 	e.writer.Close()
+	e.buf.Flush()
 	e.fp.Close()
 	os.Remove(e.fp.Name())
 	fmt.Println(e.fp.Name())
