@@ -14,19 +14,16 @@ var reTsv = regexp.MustCompile(`(?:^|[ \t])time\:([^\t]+)`)
 type Aggregator struct {
 	reader lio.BufferedReader
 	mngr   *EpochManager
-	cmpr   *Compressor
 	up     *Uploader
 	config *pkg.UploadConfig
 }
 
 func NewAggregator(reader lio.BufferedReader, cfg *pkg.UploadConfig) *Aggregator {
 	mngr := NewEpochManager()
-	cmpr := NewCompressor()
 	up := NewUploader(cfg)
 	return &Aggregator{
 		reader: reader,
 		mngr:   mngr,
-		cmpr:   cmpr,
 		up:     up,
 		config: cfg,
 	}
