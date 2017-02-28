@@ -1,8 +1,8 @@
 package aggregator
 
 import (
-	"github.com/taku-k/log2s3-go/pkg/aws"
 	"github.com/taku-k/log2s3-go/pkg"
+	"github.com/taku-k/log2s3-go/pkg/aws"
 )
 
 type Uploader struct {
