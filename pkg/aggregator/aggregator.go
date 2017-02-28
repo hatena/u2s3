@@ -5,6 +5,7 @@ import (
 	"regexp"
 	"time"
 
+	"github.com/taku-k/log2s3-go/pkg"
 	lio "github.com/taku-k/log2s3-go/pkg/io"
 )
 
@@ -15,25 +16,19 @@ type Aggregator struct {
 	mngr   *EpochManager
 	cmpr   *Compressor
 	up     *Uploader
-	logFmt string
-	keyFmt string
-	step   int
-	output string
+	config *pkg.UploadConfig
 }
 
-func NewAggregator(reader lio.BufferedReader, logFmt, keyFmt, output, bucket string, step int, maxRetry int) *Aggregator {
+func NewAggregator(reader lio.BufferedReader, cfg *pkg.UploadConfig) *Aggregator {
 	mngr := NewEpochManager()
 	cmpr := NewCompressor()
-	up := NewUploader(bucket, maxRetry)
+	up := NewUploader(cfg)
 	return &Aggregator{
 		reader: reader,
 		mngr:   mngr,
 		cmpr:   cmpr,
 		up:     up,
-		logFmt: logFmt,
-		keyFmt: keyFmt,
-		output: output,
-		step:   step,
+		config: cfg,
 	}
 }
 
@@ -53,7 +48,7 @@ func (a *Aggregator) Run() error {
 		}
 		var epoch *Epoch
 		if !a.mngr.HasEpoch(epochKey) {
-			epoch, err = NewEpoch(epochKey, a.keyFmt, a.output)
+			epoch, err = NewEpoch(epochKey, a.config.KeyFormat, a.config.OutputPrefixKey)
 			if err != nil {
 				return err
 			}
@@ -78,7 +73,7 @@ func (a *Aggregator) Close() {
 
 func (a *Aggregator) parseEpoch(l string) string {
 	r := ""
-	switch a.logFmt {
+	switch a.config.LogFormat {
 	case "ssv":
 		break
 	case "tsv":
@@ -95,6 +90,6 @@ func (a *Aggregator) parseEpoch(l string) string {
 	if err != nil {
 		return ""
 	}
-	e := time.Unix(t.Unix()-t.Unix()%(int64(a.step)*60), 0)
+	e := time.Unix(t.Unix()-t.Unix()%(int64(a.config.Step)*60), 0)
 	return e.Format("20060102150405")
 }

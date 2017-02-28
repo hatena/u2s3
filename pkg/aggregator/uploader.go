@@ -2,14 +2,15 @@ package aggregator
 
 import (
 	"github.com/taku-k/log2s3-go/pkg/aws"
+	"github.com/taku-k/log2s3-go/pkg"
 )
 
 type Uploader struct {
 	cli *aws.S3Cli
 }
 
-func NewUploader(bucket string, maxRetry int) *Uploader {
-	cli := aws.NewS3ForTest(bucket, maxRetry)
+func NewUploader(config *pkg.UploadConfig) *Uploader {
+	cli := aws.NewS3ForTest(config)
 	return &Uploader{cli}
 }
 

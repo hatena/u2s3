@@ -1,15 +1,15 @@
 package aggregator
 
 import (
+	"bufio"
 	"bytes"
-	//"compress/gzip"
-	gzip "github.com/klauspost/pgzip"
 	"fmt"
 	"io/ioutil"
 	"os"
 	"text/template"
 	"time"
-	"bufio"
+
+	gzip "github.com/klauspost/pgzip"
 )
 
 type Epoch struct {

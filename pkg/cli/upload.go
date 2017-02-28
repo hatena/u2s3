@@ -5,32 +5,35 @@ import (
 	"github.com/taku-k/log2s3-go/pkg/aggregator"
 	lio "github.com/taku-k/log2s3-go/pkg/io"
 	"github.com/urfave/cli"
+	"github.com/taku-k/log2s3-go/pkg"
 )
 
 func uploadCmd(c *cli.Context) error {
 	var reader lio.BufferedReader
 	var err error
-	file := c.String("file")
-	logFmt := c.String("log-format")
-	keyFmt := c.String("key")
-	output := c.String("output")
-	step := c.Int("step")
-	bucket := c.String("bucket")
-	gzipped := c.Bool("gzipped")
-	maxRetry := c.Int("max-retry")
+	cfg := &pkg.UploadConfig{
+		FileName: c.String("file"),
+		LogFormat: c.String("log-format"),
+		KeyFormat: c.String("key"),
+		OutputPrefixKey: c.String("output"),
+		Step: c.Int("step"),
+		Bucket: c.String("bucket"),
+		Gzipped: c.Bool("gzipeed"),
+		MaxRetry: c.Int("max-retry"),
+	}
 
-	if bucket == "" {
+	if cfg.Bucket == "" {
 		return errors.New("Bucket name must be specified")
 	}
-	if file != "" {
-		reader, err = lio.NewFileReader(file, gzipped)
+	if cfg.FileName != "" {
+		reader, err = lio.NewFileReader(cfg.FileName, cfg.Gzipped)
 		if err != nil {
 			return err
 		}
 	} else {
-		reader = lio.NewStdinReader(gzipped)
+		reader = lio.NewStdinReader(cfg.Gzipped)
 	}
 
-	agg := aggregator.NewAggregator(reader, logFmt, keyFmt, output, bucket, step, maxRetry)
+	agg := aggregator.NewAggregator(reader, cfg)
 	return agg.Run()
 }
