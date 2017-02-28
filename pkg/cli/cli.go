@@ -25,6 +25,7 @@ var commands = []cli.Command{
 			cli.StringFlag{Name: "k, key", Value: "{{.Output}}/{{.Year}}/{{.Month}}/{{.Day}}/{{.Hostname}}-{{.Year}}{{.Month}}{{.Day}}{{.Hour}}{{.Minute}}_{{.Seq}}.log.gz", Usage: "object key format"},
 			cli.StringFlag{Name: "b, bucket", Usage: "bucket name"},
 			cli.BoolFlag{Name: "gzipped", Usage: "input files are gzipped"},
+			cli.IntFlag{Name: "m, max-retry", Value: 5, Usage: "the maximum number of retry times"},
 		},
 	},
 }

@@ -17,6 +17,7 @@ func uploadCmd(c *cli.Context) error {
 	step := c.Int("step")
 	bucket := c.String("bucket")
 	gzipped := c.Bool("gzipped")
+	maxRetry := c.Int("max-retry")
 
 	if bucket == "" {
 		return errors.New("Bucket name must be specified")
@@ -30,6 +31,6 @@ func uploadCmd(c *cli.Context) error {
 		reader = lio.NewStdinReader(gzipped)
 	}
 
-	agg := aggregator.NewAggregator(reader, logFmt, keyFmt, output, bucket, step)
+	agg := aggregator.NewAggregator(reader, logFmt, keyFmt, output, bucket, step, maxRetry)
 	return agg.Run()
 }
