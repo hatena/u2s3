@@ -1,5 +1,5 @@
-hash: 59a2e274c6777fdd5c78eeb2d51db28fdccf81765593732ce21ae387145044a0
-updated: 2017-03-10T15:31:07.271609298+09:00
+hash: 1caa0312594666e8b2a0f527dcb6a7919b9c3da271c1b88b88b6b46248933109
+updated: 2017-03-10T16:27:27.285359598+09:00
 imports:
 - name: github.com/aws/aws-sdk-go
   version: 9dcf25708294b7b416ffd4b238b9708417f1d351
@@ -31,8 +31,18 @@ imports:
   - service/s3/s3iface
   - service/s3/s3manager
   - service/sts
+- name: github.com/coreos/go-systemd
+  version: e97b35f834b17eaa82afe3d44715c34736bfa12b
+  subpackages:
+  - dbus
+- name: github.com/crosbymichael/cgroups
+  version: 64d6bd149c59fa0f2aad3b31773827c119d80392
+- name: github.com/docker/go-units
+  version: f2d77a61e3c169b43402a0a1e84f06daf29b8190
 - name: github.com/go-ini/ini
   version: 6f66b0e091edb3c7b380f7c4f0f884274d550b67
+- name: github.com/godbus/dbus
+  version: fe0e1d54eaeda11a9979659a8d32f459e88bee75
 - name: github.com/jmespath/go-jmespath
   version: bd40a432e4c76585ef6b72d3fd96fb9b6dc7b68d
 - name: github.com/klauspost/compress
@@ -45,6 +55,15 @@ imports:
   version: 1bab8b35b6bb565f92cbc97939610af9369f942a
 - name: github.com/klauspost/pgzip
   version: e1189db7261c60cf75c77d573014936620d3d119
+- name: github.com/opencontainers/runc
+  version: 31980a53ae7887b2c8f8715d13c3eb486c27b6cf
+  subpackages:
+  - libcontainer/system
+  - libcontainer/utils
+- name: github.com/opencontainers/runtime-spec
+  version: 339eba52400dde8732b03e32624607a4517a556c
+  subpackages:
+  - specs-go
 - name: github.com/urfave/cli
   version: 0bdeddeeb0f650497d603c4ad7b20cfe685682f6
 testImports: []

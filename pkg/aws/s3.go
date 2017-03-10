@@ -14,7 +14,6 @@ import (
 	"github.com/taku-k/log2s3-go/pkg"
 )
 
-
 type S3Cli struct {
 	s3Svc  s3iface.S3API
 	bucket string

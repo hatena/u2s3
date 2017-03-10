@@ -2,7 +2,11 @@ package cli
 
 import (
 	"errors"
+	"fmt"
+	"os"
 
+	"github.com/crosbymichael/cgroups"
+	specs "github.com/opencontainers/runtime-spec/specs-go"
 	"github.com/taku-k/log2s3-go/pkg"
 	"github.com/taku-k/log2s3-go/pkg/core"
 	lio "github.com/taku-k/log2s3-go/pkg/io"
@@ -22,6 +26,23 @@ func uploadCmd(c *cli.Context) error {
 		Gzipped:         c.Bool("gzipeed"),
 		MaxRetry:        c.Int("max-retry"),
 	}
+
+	shares := uint64(10)
+	ctrl, err := cgroups.New(cgroups.V1, cgroups.StaticPath("/test"), &specs.LinuxResources{
+		CPU: &specs.LinuxCPU{
+			Shares: &shares,
+			Cpus:   "0",
+			Mems:   "0",
+		},
+	})
+	defer ctrl.Delete()
+	pid := os.Getpid()
+	if err := ctrl.Add(cgroups.Process{Pid: pid}); err != nil {
+		panic(err)
+	}
+
+	stats, err := ctrl.Stat()
+	fmt.Println(stats)
 
 	if cfg.Bucket == "" {
 		return errors.New("Bucket name must be specified")
