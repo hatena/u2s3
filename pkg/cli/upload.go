@@ -4,7 +4,7 @@ import (
 	"errors"
 
 	"github.com/taku-k/log2s3-go/pkg"
-	"github.com/taku-k/log2s3-go/pkg/aggregator"
+	"github.com/taku-k/log2s3-go/pkg/core"
 	lio "github.com/taku-k/log2s3-go/pkg/io"
 	"github.com/urfave/cli"
 )
