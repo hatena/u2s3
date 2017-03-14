@@ -1,5 +1,5 @@
-hash: 1caa0312594666e8b2a0f527dcb6a7919b9c3da271c1b88b88b6b46248933109
-updated: 2017-03-10T16:27:27.285359598+09:00
+hash: f4d9c895c07b3d9ea7be358abeb708244af0fe28c1b91596e836a3c6dafbaf85
+updated: 2017-03-14T16:45:39.055209074+09:00
 imports:
 - name: github.com/aws/aws-sdk-go
   version: 9dcf25708294b7b416ffd4b238b9708417f1d351
@@ -45,6 +45,8 @@ imports:
   version: fe0e1d54eaeda11a9979659a8d32f459e88bee75
 - name: github.com/jmespath/go-jmespath
   version: bd40a432e4c76585ef6b72d3fd96fb9b6dc7b68d
+- name: github.com/k0kubun/pp
+  version: 027a6d1765d673d337e687394dbe780dd64e2a1e
 - name: github.com/klauspost/compress
   version: 14c9a76e3c95e47f8ccce949bba2c1101a8b85e6
   subpackages:
@@ -55,6 +57,10 @@ imports:
   version: 1bab8b35b6bb565f92cbc97939610af9369f942a
 - name: github.com/klauspost/pgzip
   version: e1189db7261c60cf75c77d573014936620d3d119
+- name: github.com/mattn/go-colorable
+  version: a392f450ea64cee2b268dfaacdc2502b50a22b18
+- name: github.com/mattn/go-isatty
+  version: 30a891c33c7cde7b02a981314b4228ec99380cca
 - name: github.com/opencontainers/runc
   version: 31980a53ae7887b2c8f8715d13c3eb486c27b6cf
   subpackages:
@@ -66,4 +72,8 @@ imports:
   - specs-go
 - name: github.com/urfave/cli
   version: 0bdeddeeb0f650497d603c4ad7b20cfe685682f6
+- name: golang.org/x/sys
+  version: d75a52659825e75fff6158388dddc6a5b04f9ba5
+  subpackages:
+  - unix
 testImports: []
