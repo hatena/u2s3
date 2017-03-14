@@ -10,5 +10,5 @@ type UploadConfig struct {
 	Gzipped         bool
 	MaxRetry        int
 	CPULimit        int
-	MemoryLimit     uint
+	MemoryLimit     int
 }

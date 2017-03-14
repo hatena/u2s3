@@ -1,5 +1,5 @@
-hash: f4d9c895c07b3d9ea7be358abeb708244af0fe28c1b91596e836a3c6dafbaf85
-updated: 2017-03-14T16:45:39.055209074+09:00
+hash: 31f630093cf167e20e627118d4e7dec7fbfa826adf251c8586f14ad342790710
+updated: 2017-03-14T17:55:38.676427353+09:00
 imports:
 - name: github.com/aws/aws-sdk-go
   version: 9dcf25708294b7b416ffd4b238b9708417f1d351
@@ -70,6 +70,8 @@ imports:
   version: 339eba52400dde8732b03e32624607a4517a556c
   subpackages:
   - specs-go
+- name: github.com/taku-k/cgroups
+  version: 1c03188be0ee9c5a8f0b9dc9e03842372643f87f
 - name: github.com/urfave/cli
   version: 0bdeddeeb0f650497d603c4ad7b20cfe685682f6
 - name: golang.org/x/sys

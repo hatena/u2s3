@@ -4,8 +4,8 @@ import (
 	"errors"
 	"os"
 
-	"github.com/crosbymichael/cgroups"
 	specs "github.com/opencontainers/runtime-spec/specs-go"
+	"github.com/taku-k/cgroups"
 	"github.com/taku-k/log2s3-go/pkg"
 )
 
@@ -31,7 +31,7 @@ func NewCgroupMngr(c *pkg.UploadConfig) (*CgroupMngr, error) {
 			Limit: &memoryLimit,
 		}
 	}
-	ctrl, err := cgroups.New(cgroups.V1, cgroups.StaticPath("/log2s3"), &specs.LinuxResources{
+	ctrl, err := cgroups.New(cgroups.V2, cgroups.StaticPath("/log2s3"), &specs.LinuxResources{
 		CPU:    cpu,
 		Memory: memory,
 	})

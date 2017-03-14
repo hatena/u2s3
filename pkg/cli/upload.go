@@ -25,7 +25,7 @@ func uploadCmd(c *cli.Context) error {
 		Gzipped:         c.Bool("gzipeed"),
 		MaxRetry:        c.Int("max-retry"),
 		CPULimit:        c.Int("cpu"),
-		MemoryLimit:     c.Uint("memory"),
+		MemoryLimit:     c.Int("memory"),
 	}
 
 	pp.Println(cfg)
