@@ -3,11 +3,10 @@ package cli
 import (
 	"errors"
 	"fmt"
-	"os"
 
-	"github.com/crosbymichael/cgroups"
-	specs "github.com/opencontainers/runtime-spec/specs-go"
+	"github.com/k0kubun/pp"
 	"github.com/taku-k/log2s3-go/pkg"
+	"github.com/taku-k/log2s3-go/pkg/cgroup"
 	"github.com/taku-k/log2s3-go/pkg/core"
 	lio "github.com/taku-k/log2s3-go/pkg/io"
 	"github.com/urfave/cli"
@@ -25,24 +24,18 @@ func uploadCmd(c *cli.Context) error {
 		Bucket:          c.String("bucket"),
 		Gzipped:         c.Bool("gzipeed"),
 		MaxRetry:        c.Int("max-retry"),
+		CPULimit:        c.Int("cpu"),
+		MemoryLimit:     c.Uint("memory"),
 	}
 
-	shares := uint64(10)
-	ctrl, err := cgroups.New(cgroups.V1, cgroups.StaticPath("/test"), &specs.LinuxResources{
-		CPU: &specs.LinuxCPU{
-			Shares: &shares,
-			Cpus:   "0",
-			Mems:   "0",
-		},
-	})
-	defer ctrl.Delete()
-	pid := os.Getpid()
-	if err := ctrl.Add(cgroups.Process{Pid: pid}); err != nil {
-		panic(err)
-	}
+	pp.Println(cfg)
 
-	stats, err := ctrl.Stat()
-	fmt.Println(stats)
+	cmngr, err := cgroup.NewCgroupMngr(cfg)
+	if err == nil {
+		defer cmngr.Close()
+	} else {
+		fmt.Println(err)
+	}
 
 	if cfg.Bucket == "" {
 		return errors.New("Bucket name must be specified")

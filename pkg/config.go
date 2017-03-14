@@ -9,4 +9,6 @@ type UploadConfig struct {
 	Bucket          string
 	Gzipped         bool
 	MaxRetry        int
+	CPULimit        int
+	MemoryLimit     uint
 }

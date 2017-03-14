@@ -26,6 +26,8 @@ var commands = []cli.Command{
 			cli.StringFlag{Name: "b, bucket", Usage: "bucket name"},
 			cli.BoolFlag{Name: "gzipped", Usage: "input files are gzipped"},
 			cli.IntFlag{Name: "m, max-retry", Value: 5, Usage: "the maximum number of retry times"},
+			cli.IntFlag{Name: "cpu", Usage: "cpu usage limitation (%)"},
+			cli.IntFlag{Name: "memory", Usage: "memory usage limitation (MB)"},
 		},
 	},
 }
