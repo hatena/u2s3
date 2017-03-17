@@ -10,7 +10,7 @@ type Uploader struct {
 }
 
 func NewUploader(config *pkg.UploadConfig) *Uploader {
-	cli := aws.NewS3ForTest(config)
+	cli := aws.NewS3Cli(config)
 	return &Uploader{cli}
 }
 
