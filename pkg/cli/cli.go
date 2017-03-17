@@ -28,6 +28,8 @@ var commands = []cli.Command{
 			cli.IntFlag{Name: "m, max-retry", Value: 5, Usage: "the maximum number of retry times"},
 			cli.IntFlag{Name: "cpu", Usage: "cpu usage limitation (%)"},
 			cli.IntFlag{Name: "memory", Usage: "memory usage limitation (MB)"},
+			cli.IntFlag{Name: "rate", Usage: "bandwidth rate limit (MB)"},
+			cli.StringFlag{Name: "dev", Value: "eth0", Usage: "rate limit device (default: eth0)"},
 		},
 	},
 }

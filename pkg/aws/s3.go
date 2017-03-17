@@ -20,6 +20,9 @@ type S3Cli struct {
 }
 
 func NewS3Cli(config *pkg.UploadConfig) *S3Cli {
+	if os.Getenv("CUSTOM_HOST") != "" {
+		return NewCliForCustom(config)
+	}
 	sess, err := session.NewSession()
 	sess.Config.MaxRetries = aws.Int(config.MaxRetry)
 	if err != nil {
@@ -33,11 +36,11 @@ func NewS3Cli(config *pkg.UploadConfig) *S3Cli {
 	return &S3Cli{s3Svc, config.Bucket}
 }
 
-func NewS3ForTest(config *pkg.UploadConfig) *S3Cli {
+func NewCliForCustom(config *pkg.UploadConfig) *S3Cli {
 	s3Config := &aws.Config{
-		Credentials:      credentials.NewStaticCredentials("ACCESS_KEY", "SECRET_KEY", ""),
-		Endpoint:         aws.String("http://localhost:9000"),
-		Region:           aws.String("us-east-1"),
+		Credentials:      credentials.NewStaticCredentials(os.Getenv("ACCESS_KEY"), os.Getenv("SECRET_KEY"), ""),
+		Endpoint:         aws.String(os.Getenv("CUSTOM_HOST")),
+		Region:           aws.String(os.Getenv("CUSTOM_REGION")),
 		DisableSSL:       aws.Bool(true),
 		S3ForcePathStyle: aws.Bool(true),
 		MaxRetries:       aws.Int(config.MaxRetry),

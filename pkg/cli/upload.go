@@ -26,11 +26,13 @@ func uploadCmd(c *cli.Context) error {
 		MaxRetry:        c.Int("max-retry"),
 		CPULimit:        c.Int("cpu"),
 		MemoryLimit:     c.Int("memory"),
+		RateLimit:       c.Int("rate"),
+		Device:          c.String("dev"),
 	}
 
 	pp.Println(cfg)
 
-	cmngr, err := cgroup.NewCgroupMngr(cfg)
+	cmngr, err := cgroups.NewCgroupMngr(cfg)
 	if err == nil {
 		defer cmngr.Close()
 	} else {

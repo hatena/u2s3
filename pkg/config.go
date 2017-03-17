@@ -11,4 +11,6 @@ type UploadConfig struct {
 	MaxRetry        int
 	CPULimit        int
 	MemoryLimit     int
+	RateLimit       int
+	Device          string
 }
