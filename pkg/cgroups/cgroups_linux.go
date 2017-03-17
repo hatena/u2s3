@@ -1,4 +1,4 @@
-package cgroup
+package cgroups
 
 import (
 	"errors"

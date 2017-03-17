@@ -1,4 +1,4 @@
-package cgroup
+package cgroups
 
 import "github.com/taku-k/log2s3-go/pkg"
 
