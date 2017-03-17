@@ -6,7 +6,7 @@ import (
 
 	"github.com/k0kubun/pp"
 	"github.com/taku-k/log2s3-go/pkg"
-	"github.com/taku-k/log2s3-go/pkg/cgroup"
+	"github.com/taku-k/log2s3-go/pkg/cgroups"
 	"github.com/taku-k/log2s3-go/pkg/core"
 	lio "github.com/taku-k/log2s3-go/pkg/io"
 	"github.com/urfave/cli"
