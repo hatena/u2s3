@@ -27,3 +27,7 @@ endif
 deps: glide
 	glide install
 
+.PHONY: test
+test:
+	env CUSTOM_HOST=localhost:9000 CUSTOM_REGION=us-east-1 go test -cover -v `glide nv`
+

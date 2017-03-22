@@ -78,6 +78,11 @@ func (a *Aggregator) parseEpoch(l string) string {
 		if len(m) == 2 {
 			r = m[1]
 		}
+		if len(r) >= 2 {
+			if r[0] == '[' && r[len(r)-1] == ']' {
+				r = r[1 : len(r)-1]
+			}
+		}
 		break
 	}
 	if r == "" {
