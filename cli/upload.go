@@ -8,12 +8,12 @@ import (
 	"github.com/taku-k/log2s3-go/pkg"
 	"github.com/taku-k/log2s3-go/pkg/cgroups"
 	"github.com/taku-k/log2s3-go/pkg/core"
-	lio "github.com/taku-k/log2s3-go/pkg/io"
+	"github.com/taku-k/log2s3-go/pkg/input/content"
 	"github.com/urfave/cli"
 )
 
 func uploadCmd(c *cli.Context) error {
-	var reader lio.BufferedReader
+	var reader content.BufferedReader
 	var err error
 	cfg := &pkg.UploadConfig{
 		FileName:        c.String("file"),
@@ -43,14 +43,14 @@ func uploadCmd(c *cli.Context) error {
 		return errors.New("Bucket name must be specified")
 	}
 	if cfg.FileName != "" {
-		reader, err = lio.NewFileReader(cfg.FileName, cfg.Gzipped)
+		reader, err = content.NewFileReader(cfg.FileName, cfg.Gzipped)
 		if err != nil {
 			return err
 		}
 	} else {
-		reader = lio.NewStdinReader(cfg.Gzipped)
+		reader = content.NewStdinReader(cfg.Gzipped)
 	}
 
-	agg := aggregator.NewAggregator(reader, cfg)
+	agg := core.NewAggregator(reader, cfg)
 	return agg.Run()
 }

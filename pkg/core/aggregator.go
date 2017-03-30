@@ -1,4 +1,4 @@
-package aggregator
+package core
 
 import (
 	"io"
@@ -6,19 +6,19 @@ import (
 	"time"
 
 	"github.com/taku-k/log2s3-go/pkg"
-	lio "github.com/taku-k/log2s3-go/pkg/io"
+	"github.com/taku-k/log2s3-go/pkg/input/content"
 )
 
 var reTsv = regexp.MustCompile(`(?:^|[ \t])time\:([^\t]+)`)
 
 type Aggregator struct {
-	reader lio.BufferedReader
+	reader content.BufferedReader
 	mngr   *EpochManager
 	up     *Uploader
 	config *pkg.UploadConfig
 }
 
-func NewAggregator(reader lio.BufferedReader, cfg *pkg.UploadConfig) *Aggregator {
+func NewAggregator(reader content.BufferedReader, cfg *pkg.UploadConfig) *Aggregator {
 	mngr := NewEpochManager()
 	up := NewUploader(cfg)
 	return &Aggregator{

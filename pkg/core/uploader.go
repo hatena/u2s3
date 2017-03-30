@@ -1,4 +1,4 @@
-package aggregator
+package core
 
 import (
 	"github.com/taku-k/log2s3-go/pkg"
@@ -15,8 +15,7 @@ func NewUploader(config *pkg.UploadConfig) *Uploader {
 }
 
 func (u *Uploader) Upload(e *Epoch) error {
-	e.writer.Close()
-	e.buf.Flush()
+	e.Close()
 
 	seq := 0
 	key := ""

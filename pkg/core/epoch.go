@@ -1,4 +1,4 @@
-package aggregator
+package core
 
 import (
 	"bufio"
@@ -81,9 +81,13 @@ func (e *Epoch) Write(l []byte) {
 func (e *Epoch) Close() {
 	e.writer.Close()
 	e.buf.Flush()
+}
+
+func (e *Epoch) Remove() {
+	e.writer.Close()
+	e.buf.Flush()
 	e.fp.Close()
 	os.Remove(e.fp.Name())
-	fmt.Println(e.fp.Name())
 }
 
 func NewEpochManager() *EpochManager {
@@ -107,6 +111,6 @@ func (m *EpochManager) PutEpoch(e *Epoch) {
 
 func (m *EpochManager) Close() {
 	for _, e := range m.epochs {
-		e.Close()
+		e.Remove()
 	}
 }
