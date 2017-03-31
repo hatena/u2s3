@@ -7,14 +7,11 @@ import (
 	"github.com/k0kubun/pp"
 	"github.com/taku-k/u2s3/pkg"
 	"github.com/taku-k/u2s3/pkg/core"
-	"github.com/taku-k/u2s3/pkg/input/content"
 	"github.com/taku-k/u2s3/pkg/resourcelimit"
 	"github.com/urfave/cli"
 )
 
 func uploadCmd(c *cli.Context) error {
-	var reader content.BufferedReader
-	var err error
 	cfg := &pkg.UploadConfig{
 		FileName:        c.String("file"),
 		LogFormat:       c.String("log-format"),
@@ -28,6 +25,7 @@ func uploadCmd(c *cli.Context) error {
 		MemoryLimit:     c.Int("memory"),
 		RateLimit:       c.Int("rate"),
 		Device:          c.String("dev"),
+		ContentAware:    c.Bool("content-aware"),
 	}
 
 	pp.Println(cfg)
@@ -42,15 +40,13 @@ func uploadCmd(c *cli.Context) error {
 	if cfg.Bucket == "" {
 		return errors.New("Bucket name must be specified")
 	}
-	if cfg.FileName != "" {
-		reader, err = content.NewFileReader(cfg.FileName, cfg.Gzipped)
+
+	if cfg.ContentAware {
+		agg, err := core.NewAggregator(cfg)
 		if err != nil {
 			return err
 		}
-	} else {
-		reader = content.NewStdinReader(cfg.Gzipped)
+		return agg.Run()
 	}
-
-	agg := core.NewAggregator(reader, cfg)
-	return agg.Run()
+	return nil
 }

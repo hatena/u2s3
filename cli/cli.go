@@ -28,6 +28,7 @@ var commands = []cli.Command{
 			cli.IntFlag{Name: "memory", Usage: "memory usage limitation (MB)"},
 			cli.IntFlag{Name: "rate", Usage: "bandwidth rate limit (MB)"},
 			cli.StringFlag{Name: "dev", Value: "eth0", Usage: "rate limit device (default: eth0)"},
+			cli.BoolFlag{Name: "ca, content-aware", Usage: "Content-aware uploading is enabled"},
 		},
 	},
 }

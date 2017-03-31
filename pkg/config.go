@@ -13,4 +13,5 @@ type UploadConfig struct {
 	MemoryLimit     int
 	RateLimit       int
 	Device          string
+	ContentAware    bool
 }

@@ -18,15 +18,25 @@ type Aggregator struct {
 	config *pkg.UploadConfig
 }
 
-func NewAggregator(reader content.BufferedReader, cfg *pkg.UploadConfig) *Aggregator {
+func NewAggregator(cfg *pkg.UploadConfig) (*Aggregator, error) {
 	mngr := NewEpochManager()
 	up := NewUploader(cfg)
+	var reader content.BufferedReader
+	var err error
+	if cfg.FileName != "" {
+		reader, err = content.NewFileReader(cfg.FileName, cfg.Gzipped)
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		reader = content.NewStdinReader(cfg.Gzipped)
+	}
 	return &Aggregator{
 		reader: reader,
 		mngr:   mngr,
 		up:     up,
 		config: cfg,
-	}
+	}, nil
 }
 
 func (a *Aggregator) Run() error {

@@ -19,7 +19,7 @@ func TestParseEpoch(t *testing.T) {
 		{"time is closed in the bracket", "host:127.0.0.1\ttime:[24/Feb/2017:10:00:00 +0900]", "20170224100000"},
 	}
 	cfg := &pkg.UploadConfig{LogFormat: "tsv", Step: 30}
-	a := NewAggregator(nil, cfg)
+	a, _ := NewAggregator(cfg)
 	for _, tt := range etests {
 		s := a.parseEpoch(tt.in)
 		if s != tt.out {
