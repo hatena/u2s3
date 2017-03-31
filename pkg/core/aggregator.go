@@ -49,7 +49,7 @@ func (a *Aggregator) Run() error {
 		} else if err != nil {
 			return err
 		}
-		epochKey := a.parseEpoch(string(l))
+		epochKey := parseEpoch(string(l), a.config.LogFormat, a.config.Step)
 		if epochKey == "" {
 			continue
 		}
@@ -78,9 +78,9 @@ func (a *Aggregator) Close() {
 	a.mngr.Close()
 }
 
-func (a *Aggregator) parseEpoch(l string) string {
+func parseEpoch(l, logFormat string, step int) string {
 	r := ""
-	switch a.config.LogFormat {
+	switch logFormat {
 	case "ssv":
 		break
 	case "tsv":
@@ -102,6 +102,6 @@ func (a *Aggregator) parseEpoch(l string) string {
 	if err != nil {
 		return ""
 	}
-	e := time.Unix(t.Unix()-t.Unix()%(int64(a.config.Step)*60), 0)
+	e := time.Unix(t.Unix()-t.Unix()%(int64(step)*60), 0)
 	return e.Format("20060102150405")
 }
