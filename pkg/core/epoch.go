@@ -26,7 +26,7 @@ type EpochManager struct {
 }
 
 func NewEpoch(epochKey, keyFmt, output string) (*Epoch, error) {
-	fp, err := ioutil.TempFile("", "log2s3")
+	fp, err := ioutil.TempFile("", "u2s3")
 	if err != nil {
 		return nil, err
 	}

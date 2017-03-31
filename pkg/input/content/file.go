@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 
 	gzip "github.com/klauspost/pgzip"
-	"github.com/taku-k/u2s3/pkg/input"
+	"github.com/taku-k/u2s3/pkg/util"
 )
 
 type FileReader struct {
@@ -43,7 +43,7 @@ func (r *FileReader) ready() error {
 		}
 		r.pos += 1
 		r.fp = fp
-		if input.IsGzipped(r.fp) {
+		if util.IsGzipped(r.fp) {
 			g, err := gzip.NewReader(r.fp)
 			if err != nil {
 				return err

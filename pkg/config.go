@@ -13,4 +13,5 @@ type UploadConfig struct {
 	RateLimit       int
 	Device          string
 	ContentAware    bool
+	FilenameFormat  string
 }

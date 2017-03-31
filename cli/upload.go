@@ -15,7 +15,7 @@ func uploadCmd(c *cli.Context) error {
 	cfg := &pkg.UploadConfig{
 		FileName:        c.String("file"),
 		LogFormat:       c.String("log-format"),
-		KeyFormat:       c.String("key"),
+		KeyFormat:       c.String("output-key"),
 		OutputPrefixKey: c.String("output"),
 		Step:            c.Int("step"),
 		Bucket:          c.String("bucket"),
@@ -25,6 +25,7 @@ func uploadCmd(c *cli.Context) error {
 		RateLimit:       c.Int("rate"),
 		Device:          c.String("dev"),
 		ContentAware:    c.Bool("content-aware"),
+		FilenameFormat:  c.String("filename-format"),
 	}
 
 	pp.Println(cfg)
@@ -43,9 +44,11 @@ func uploadCmd(c *cli.Context) error {
 	var agg core.Aggregator
 	if cfg.ContentAware {
 		agg, err = core.NewEpochAggregator(cfg)
-		if err != nil {
-			return err
-		}
+	} else {
+		agg, err = core.NewFileAggregator(cfg)
+	}
+	if err != nil {
+		return err
 	}
 	defer agg.Close()
 	if err := agg.Run(); err != nil {

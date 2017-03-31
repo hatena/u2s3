@@ -20,7 +20,7 @@ var commands = []cli.Command{
 			cli.StringFlag{Name: "p, prefix", Usage: "prefix of splitted logs"},
 			cli.StringFlag{Name: "o, output", Usage: "directory for output"},
 			cli.StringFlag{Name: "l, log-format", Value: "tsv", Usage: "tsv or ssv (default: tsv)"},
-			cli.StringFlag{Name: "k, key", Value: "{{.Output}}/{{.Year}}/{{.Month}}/{{.Day}}/{{.Hostname}}-{{.Year}}{{.Month}}{{.Day}}{{.Hour}}{{.Minute}}_{{.Seq}}.log.gz", Usage: "object key format"},
+			cli.StringFlag{Name: "ok, output-key", Value: "{{.Output}}/{{.Year}}/{{.Month}}/{{.Day}}/{{.Hostname}}-{{.Year}}{{.Month}}{{.Day}}{{.Hour}}{{.Minute}}_{{.Seq}}.log.gz", Usage: "object key format"},
 			cli.StringFlag{Name: "b, bucket", Usage: "bucket name"},
 			cli.IntFlag{Name: "m, max-retry", Value: 5, Usage: "the maximum number of retry times"},
 			cli.IntFlag{Name: "cpu", Usage: "cpu usage limitation (%)"},
@@ -28,6 +28,7 @@ var commands = []cli.Command{
 			cli.IntFlag{Name: "rate", Usage: "bandwidth rate limit (MB)"},
 			cli.StringFlag{Name: "dev", Value: "eth0", Usage: "rate limit device (default: eth0)"},
 			cli.BoolFlag{Name: "ca, content-aware", Usage: "Content-aware uploading is enabled"},
+			cli.StringFlag{Name: "ff, filename-format", Usage: "file name format e.g. " + `(?<Year>\d{4})-(?<Month>\d{2})-(?<Day>\d{2})`},
 		},
 	},
 }
