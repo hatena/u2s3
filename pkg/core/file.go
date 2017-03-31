@@ -14,9 +14,11 @@ import (
 )
 
 type File struct {
-	fn    string
-	inFp  *os.File
-	outFp *os.File
+	fn      string
+	inFp    *os.File
+	outFp   *os.File
+	keyFmt  string
+	keyTemp *pkg.UploadKeyTemplate
 }
 
 type FileAggregator struct {
@@ -31,7 +33,7 @@ func NewFileAggregator(cfg *pkg.UploadConfig) (Aggregator, error) {
 	matches, _ := filepath.Glob(cfg.FileName)
 	files := make(map[string]*File, len(matches))
 	for _, f := range matches {
-		files[f] = nil
+		files[f] = NewFile(f, cfg.FilenameFormat, cfg.KeyFormat, cfg.OutputPrefixKey)
 	}
 	return &FileAggregator{
 		config: cfg,
@@ -40,12 +42,7 @@ func NewFileAggregator(cfg *pkg.UploadConfig) (Aggregator, error) {
 }
 
 func (a *FileAggregator) Run() error {
-	for fn := range a.files {
-		f, err := NewFile(fn)
-		if err != nil {
-			return err
-		}
-		a.files[fn] = f
+	for _, f := range a.files {
 		f.compress()
 	}
 	return nil
@@ -65,28 +62,40 @@ func (a *FileAggregator) Close() {
 	}
 }
 
-func NewFile(fn string) (*File, error) {
+func NewFile(fn string, nameFmt, keyFmt, output string) *File {
+	params := util.GetParams(nameFmt, fn)
+	keyTemp := &pkg.UploadKeyTemplate{
+		Output: output,
+		Year:   params["Year"],
+		Month:  params["Month"],
+		Day:    params["Day"],
+		Hour:   params["Hour"],
+		Minute: params["Minute"],
+		Second: params["Second"],
+	}
 	return &File{
-		fn:    fn,
-		inFp:  nil,
-		outFp: nil,
-	}, nil
+		fn:      fn,
+		inFp:    nil,
+		outFp:   nil,
+		keyFmt:  keyFmt,
+		keyTemp: keyTemp,
+	}
 }
 
 func (f *File) GetObjectKey(seq int) (string, error) {
-	return "", nil
+	f.keyTemp.Seq = seq
+	return util.GenerateUploadKey(f.keyTemp, f.keyFmt)
 }
 
 func (f *File) GetFile() *os.File {
 	return f.outFp
 }
 
-func (f *File) Close() {
-	f.inFp.Close()
-	f.outFp.Close()
-}
+func (f *File) Flush() {}
 
 func (f *File) Remove() {
+	f.inFp.Close()
+	f.outFp.Close()
 	os.Remove(f.outFp.Name())
 }
 
@@ -116,7 +125,6 @@ func (f *File) compress() error {
 	for scanner.Scan() {
 		w.Write(scanner.Bytes())
 	}
-	inFp.Close()
-	outFp.Close()
+	outBuf.Flush()
 	return nil
 }

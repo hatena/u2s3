@@ -71,7 +71,7 @@ func (e *Epoch) Write(l []byte) {
 	}
 }
 
-func (e *Epoch) Close() {
+func (e *Epoch) Flush() {
 	e.writer.Close()
 	e.buf.Flush()
 }

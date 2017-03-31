@@ -1,6 +1,7 @@
 package core
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/taku-k/u2s3/pkg"
@@ -10,7 +11,7 @@ import (
 type UploadableFile interface {
 	GetObjectKey(seq int) (string, error)
 	GetFile() *os.File
-	Close()
+	Flush()
 }
 
 type Uploader struct {
@@ -23,7 +24,7 @@ func NewUploader(config *pkg.UploadConfig) *Uploader {
 }
 
 func (u *Uploader) Upload(uf UploadableFile) error {
-	uf.Close()
+	uf.Flush()
 
 	seq := 0
 	key := ""
@@ -41,5 +42,6 @@ func (u *Uploader) Upload(uf UploadableFile) error {
 	if err := u.cli.Upload(key, uf.GetFile()); err != nil {
 		return err
 	}
+	fmt.Println(key)
 	return nil
 }
