@@ -3,7 +3,7 @@ package core
 import (
 	"testing"
 
-	"github.com/taku-k/log2s3-go/pkg"
+	"github.com/taku-k/u2s3/pkg"
 )
 
 func TestParseEpoch(t *testing.T) {

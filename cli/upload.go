@@ -5,10 +5,10 @@ import (
 	"fmt"
 
 	"github.com/k0kubun/pp"
-	"github.com/taku-k/log2s3-go/pkg"
-	"github.com/taku-k/log2s3-go/pkg/cgroups"
-	"github.com/taku-k/log2s3-go/pkg/core"
-	"github.com/taku-k/log2s3-go/pkg/input/content"
+	"github.com/taku-k/u2s3/pkg"
+	"github.com/taku-k/u2s3/pkg/cgroups"
+	"github.com/taku-k/u2s3/pkg/core"
+	"github.com/taku-k/u2s3/pkg/input/content"
 	"github.com/urfave/cli"
 )
 

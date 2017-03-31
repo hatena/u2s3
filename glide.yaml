@@ -1,4 +1,4 @@
-package: github.com/taku-k/log2s3-go
+package: github.com/taku-k/u2s3
 import:
 - package: github.com/aws/aws-sdk-go
   subpackages:

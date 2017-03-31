@@ -1,4 +1,4 @@
-NAME     := log2s3
+NAME     := u2s3
 
 SRCS    := $(shell find . -type f -name '*.go')
 LDFLAGS := -ldflags="-s -w -extldflags \"-static\""

@@ -5,8 +5,8 @@ import (
 	"regexp"
 	"time"
 
-	"github.com/taku-k/log2s3-go/pkg"
-	"github.com/taku-k/log2s3-go/pkg/input/content"
+	"github.com/taku-k/u2s3/pkg"
+	"github.com/taku-k/u2s3/pkg/input/content"
 )
 
 var reTsv = regexp.MustCompile(`(?:^|[ \t])time\:([^\t]+)`)

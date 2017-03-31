@@ -1,6 +1,6 @@
 package cgroups
 
-import "github.com/taku-k/log2s3-go/pkg"
+import "github.com/taku-k/u2s3/pkg"
 
 type DummyCgroupMngr struct{}
 

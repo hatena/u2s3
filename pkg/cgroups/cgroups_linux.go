@@ -7,7 +7,7 @@ import (
 
 	specs "github.com/opencontainers/runtime-spec/specs-go"
 	"github.com/taku-k/cgroups"
-	"github.com/taku-k/log2s3-go/pkg"
+	"github.com/taku-k/u2s3/pkg"
 )
 
 type CgroupMngr struct {
