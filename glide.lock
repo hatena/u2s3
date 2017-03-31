@@ -1,5 +1,5 @@
-hash: 31f630093cf167e20e627118d4e7dec7fbfa826adf251c8586f14ad342790710
-updated: 2017-03-14T17:55:38.676427353+09:00
+hash: 4392ec47c6f962f7a93394b3ec8f58fb8c20de86d01e52b57c412af352b0f42e
+updated: 2017-03-31T14:11:54.749275549+09:00
 imports:
 - name: github.com/aws/aws-sdk-go
   version: 9dcf25708294b7b416ffd4b238b9708417f1d351
@@ -35,8 +35,6 @@ imports:
   version: e97b35f834b17eaa82afe3d44715c34736bfa12b
   subpackages:
   - dbus
-- name: github.com/crosbymichael/cgroups
-  version: 64d6bd149c59fa0f2aad3b31773827c119d80392
 - name: github.com/docker/go-units
   version: f2d77a61e3c169b43402a0a1e84f06daf29b8190
 - name: github.com/go-ini/ini
