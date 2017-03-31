@@ -71,6 +71,10 @@ func (e *Epoch) GetObjectKey(seq int) (string, error) {
 	return res.String(), nil
 }
 
+func (e *Epoch) GetFile() *os.File {
+	return e.fp
+}
+
 func (e *Epoch) Write(l []byte) {
 	_, err := e.writer.Write(l)
 	if err != nil {
