@@ -6,9 +6,9 @@ import (
 
 	"github.com/k0kubun/pp"
 	"github.com/taku-k/u2s3/pkg"
-	"github.com/taku-k/u2s3/pkg/cgroups"
 	"github.com/taku-k/u2s3/pkg/core"
 	"github.com/taku-k/u2s3/pkg/input/content"
+	"github.com/taku-k/u2s3/pkg/resourcelimit"
 	"github.com/urfave/cli"
 )
 
@@ -32,7 +32,7 @@ func uploadCmd(c *cli.Context) error {
 
 	pp.Println(cfg)
 
-	cmngr, err := cgroups.NewCgroupMngr(cfg)
+	cmngr, err := resourcelimit.NewCgroupMngr(cfg)
 	if err == nil {
 		defer cmngr.Close()
 	} else {

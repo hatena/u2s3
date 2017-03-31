@@ -1,11 +1,11 @@
-package cgroups
+package resourcelimit
 
 import (
 	"fmt"
 	"os/exec"
+	"strings"
 
 	"github.com/taku-k/u2s3/pkg"
-	"strings"
 )
 
 const (
