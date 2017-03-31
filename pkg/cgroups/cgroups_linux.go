@@ -22,7 +22,7 @@ func NewCgroupMngr(c *pkg.UploadConfig) (*CgroupMngr, error) {
 	cpu := createCPULimit(c)
 	memory := createMemoryLimit(c)
 	network, minor := createNetCls(c)
-	ctrl, err := cgroups.New(cgroups.V2, cgroups.StaticPath("/log2s3"), &specs.LinuxResources{
+	ctrl, err := cgroups.New(cgroups.V2, cgroups.StaticPath("/u2s3"), &specs.LinuxResources{
 		CPU:     cpu,
 		Memory:  memory,
 		Network: network,
@@ -70,7 +70,7 @@ func createNetCls(c *pkg.UploadConfig) (*specs.LinuxNetwork, int) {
 	var network *specs.LinuxNetwork
 	minor := 1
 	if isEnableLimitBW(c) {
-		i32, _ := strconv.ParseInt("0x00100001", 16, 32)
+		i32, _ := strconv.ParseInt("00100001", 16, 32)
 		cls := uint32(i32)
 		network = &specs.LinuxNetwork{
 			ClassID: &cls,

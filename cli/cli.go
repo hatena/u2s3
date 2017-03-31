@@ -7,8 +7,6 @@ import (
 	"github.com/urfave/cli"
 )
 
-var app cli.App
-
 var globalFlags = []cli.Flag{}
 
 var commands = []cli.Command{
