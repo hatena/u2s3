@@ -2,14 +2,14 @@ package core
 
 import (
 	"bufio"
-	"bytes"
 	"fmt"
 	"io/ioutil"
 	"os"
-	"text/template"
 	"time"
 
 	gzip "github.com/klauspost/pgzip"
+	"github.com/taku-k/u2s3/pkg"
+	"github.com/taku-k/u2s3/pkg/util"
 )
 
 type Epoch struct {
@@ -47,28 +47,17 @@ func (e *Epoch) GetObjectKey(seq int) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	host, err := os.Hostname()
-	if err != nil {
-		return "", err
+	keyTemp := &pkg.UploadKeyTemplate{
+		Output: e.output,
+		Year:   fmt.Sprintf("%04d", t.Year()),
+		Month:  fmt.Sprintf("%02d", t.Month()),
+		Day:    fmt.Sprintf("%02d", t.Day()),
+		Hour:   fmt.Sprintf("%02d", t.Hour()),
+		Minute: fmt.Sprintf("%02d", t.Minute()),
+		Second: fmt.Sprintf("%02d", t.Second()),
+		Seq:    seq,
 	}
-	temp := template.New("key")
-	template.Must(temp.Parse(e.keyFmt))
-	var res bytes.Buffer
-	err = temp.Execute(&res, map[string]interface{}{
-		"Output":   e.output,
-		"Year":     fmt.Sprintf("%04d", t.Year()),
-		"Month":    fmt.Sprintf("%02d", t.Month()),
-		"Day":      fmt.Sprintf("%02d", t.Day()),
-		"Hour":     fmt.Sprintf("%02d", t.Hour()),
-		"Minute":   fmt.Sprintf("%02d", t.Minute()),
-		"Second":   fmt.Sprintf("%02d", t.Second()),
-		"Hostname": host,
-		"Seq":      seq,
-	})
-	if err != nil {
-		return "", err
-	}
-	return res.String(), nil
+	return util.GenerateUploadKey(keyTemp, e.keyFmt)
 }
 
 func (e *Epoch) GetFile() *os.File {

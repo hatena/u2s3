@@ -15,3 +15,14 @@ type UploadConfig struct {
 	ContentAware    bool
 	FilenameFormat  string
 }
+
+type UploadKeyTemplate struct {
+	Year   string
+	Month  string
+	Day    string
+	Hour   string
+	Minute string
+	Second string
+	Output string
+	Seq    int
+}
