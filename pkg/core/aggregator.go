@@ -9,29 +9,40 @@ import (
 	"github.com/taku-k/u2s3/pkg/input/content"
 )
 
+type Aggregator interface {
+	Run() error
+	GetUploadableFiles() []UploadableFile
+	Close()
+}
+
 var reTsv = regexp.MustCompile(`(?:^|[ \t])time\:([^\t]+)`)
 
-type Aggregator struct {
+type EpochAggregator struct {
 	reader content.BufferedReader
 	mngr   *EpochManager
-	up     *Uploader
 	config *pkg.UploadConfig
 }
 
-func NewAggregator(reader content.BufferedReader, cfg *pkg.UploadConfig) *Aggregator {
+func NewEpochAggregator(cfg *pkg.UploadConfig) (Aggregator, error) {
 	mngr := NewEpochManager()
-	up := NewUploader(cfg)
-	return &Aggregator{
+	var reader content.BufferedReader
+	var err error
+	if cfg.FileName != "" {
+		reader, err = content.NewFileReader(cfg.FileName)
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		reader = content.NewStdinReader()
+	}
+	return &EpochAggregator{
 		reader: reader,
 		mngr:   mngr,
-		up:     up,
 		config: cfg,
-	}
+	}, nil
 }
 
-func (a *Aggregator) Run() error {
-	defer a.Close()
-
+func (a *EpochAggregator) Run() error {
 	for {
 		l, err := a.reader.Readln()
 		if err == io.EOF {
@@ -39,7 +50,7 @@ func (a *Aggregator) Run() error {
 		} else if err != nil {
 			return err
 		}
-		epochKey := a.parseEpoch(string(l))
+		epochKey := parseEpoch(string(l), a.config.LogFormat, a.config.Step)
 		if epochKey == "" {
 			continue
 		}
@@ -55,22 +66,25 @@ func (a *Aggregator) Run() error {
 		}
 		epoch.Write(l)
 	}
-	for _, e := range a.mngr.epochs {
-		if err := a.up.Upload(e); err != nil {
-			return err
-		}
-	}
 	return nil
 }
 
-func (a *Aggregator) Close() {
+func (a *EpochAggregator) GetUploadableFiles() []UploadableFile {
+	v := make([]UploadableFile, 0, len(a.mngr.epochs))
+	for _, e := range a.mngr.epochs {
+		v = append(v, e)
+	}
+	return v
+}
+
+func (a *EpochAggregator) Close() {
 	a.reader.Close()
 	a.mngr.Close()
 }
 
-func (a *Aggregator) parseEpoch(l string) string {
+func parseEpoch(l, logFormat string, step int) string {
 	r := ""
-	switch a.config.LogFormat {
+	switch logFormat {
 	case "ssv":
 		break
 	case "tsv":
@@ -92,6 +106,6 @@ func (a *Aggregator) parseEpoch(l string) string {
 	if err != nil {
 		return ""
 	}
-	e := time.Unix(t.Unix()-t.Unix()%(int64(a.config.Step)*60), 0)
+	e := time.Unix(t.Unix()-t.Unix()%(int64(step)*60), 0)
 	return e.Format("20060102150405")
 }

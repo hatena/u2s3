@@ -6,7 +6,9 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+
 	gzip "github.com/klauspost/pgzip"
+	"github.com/taku-k/u2s3/pkg/util"
 )
 
 type FileReader struct {
@@ -14,12 +16,11 @@ type FileReader struct {
 	pos    int
 	fp     *os.File
 	reader *bufio.Reader
-	gzipped bool
 }
 
-func NewFileReader(f string, gzipped bool) (*FileReader, error) {
+func NewFileReader(f string) (*FileReader, error) {
 	matches, _ := filepath.Glob(f)
-	r := &FileReader{matches, 0, nil, nil, gzipped}
+	r := &FileReader{matches, 0, nil, nil}
 	err := r.ready()
 	if err != nil {
 		return nil, err
@@ -42,7 +43,7 @@ func (r *FileReader) ready() error {
 		}
 		r.pos += 1
 		r.fp = fp
-		if r.gzipped {
+		if util.IsGzipped(r.fp) {
 			g, err := gzip.NewReader(r.fp)
 			if err != nil {
 				return err

@@ -3,22 +3,14 @@ package content
 import (
 	"bufio"
 	"os"
-	gzip "github.com/klauspost/pgzip"
 )
 
 type StdinReader struct {
 	reader *bufio.Reader
 }
 
-func NewStdinReader(gzipped bool) *StdinReader {
-	var buf *bufio.Reader
-	if gzipped {
-		r, _ := gzip.NewReader(os.Stdin)
-		buf = bufio.NewReader(r)
-	} else {
-		buf = bufio.NewReader(os.Stdin)
-	}
-	return &StdinReader{buf}
+func NewStdinReader() *StdinReader {
+	return &StdinReader{bufio.NewReader(os.Stdin)}
 }
 
 func (r *StdinReader) Readln() ([]byte, error) {

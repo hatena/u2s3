@@ -1,9 +1,18 @@
 package core
 
 import (
+	"fmt"
+	"os"
+
 	"github.com/taku-k/u2s3/pkg"
 	"github.com/taku-k/u2s3/pkg/aws"
 )
+
+type UploadableFile interface {
+	GetObjectKey(seq int) (string, error)
+	GetFile() *os.File
+	Flush()
+}
 
 type Uploader struct {
 	cli *aws.S3Cli
@@ -14,15 +23,15 @@ func NewUploader(config *pkg.UploadConfig) *Uploader {
 	return &Uploader{cli}
 }
 
-func (u *Uploader) Upload(e *Epoch) error {
-	e.Close()
+func (u *Uploader) Upload(uf UploadableFile) error {
+	uf.Flush()
 
 	seq := 0
 	key := ""
 	var err error
 	for {
 		seq += 1
-		key, err = e.GetObjectKey(seq)
+		key, err = uf.GetObjectKey(seq)
 		if err != nil {
 			return err
 		}
@@ -30,8 +39,9 @@ func (u *Uploader) Upload(e *Epoch) error {
 			break
 		}
 	}
-	if err := u.cli.Upload(key, e.fp); err != nil {
+	if err := u.cli.Upload(key, uf.GetFile()); err != nil {
 		return err
 	}
+	fmt.Println(key)
 	return nil
 }
