@@ -9,18 +9,22 @@ import (
 	"github.com/taku-k/u2s3/pkg/input/content"
 )
 
+type Aggregator interface {
+	Run() error
+	GetUploadableFiles() []UploadableFile
+	Close()
+}
+
 var reTsv = regexp.MustCompile(`(?:^|[ \t])time\:([^\t]+)`)
 
-type Aggregator struct {
+type EpochAggregator struct {
 	reader content.BufferedReader
 	mngr   *EpochManager
-	up     *Uploader
 	config *pkg.UploadConfig
 }
 
-func NewAggregator(cfg *pkg.UploadConfig) (*Aggregator, error) {
+func NewEpochAggregator(cfg *pkg.UploadConfig) (Aggregator, error) {
 	mngr := NewEpochManager()
-	up := NewUploader(cfg)
 	var reader content.BufferedReader
 	var err error
 	if cfg.FileName != "" {
@@ -31,17 +35,14 @@ func NewAggregator(cfg *pkg.UploadConfig) (*Aggregator, error) {
 	} else {
 		reader = content.NewStdinReader(cfg.Gzipped)
 	}
-	return &Aggregator{
+	return &EpochAggregator{
 		reader: reader,
 		mngr:   mngr,
-		up:     up,
 		config: cfg,
 	}, nil
 }
 
-func (a *Aggregator) Run() error {
-	defer a.Close()
-
+func (a *EpochAggregator) Run() error {
 	for {
 		l, err := a.reader.Readln()
 		if err == io.EOF {
@@ -65,15 +66,18 @@ func (a *Aggregator) Run() error {
 		}
 		epoch.Write(l)
 	}
-	for _, e := range a.mngr.epochs {
-		if err := a.up.Upload(e); err != nil {
-			return err
-		}
-	}
 	return nil
 }
 
-func (a *Aggregator) Close() {
+func (a *EpochAggregator) GetUploadableFiles() []UploadableFile {
+	v := make([]UploadableFile, 0, len(a.mngr.epochs))
+	for _, e := range a.mngr.epochs {
+		v = append(v, e)
+	}
+	return v
+}
+
+func (a *EpochAggregator) Close() {
 	a.reader.Close()
 	a.mngr.Close()
 }

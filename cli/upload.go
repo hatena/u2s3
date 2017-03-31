@@ -41,12 +41,22 @@ func uploadCmd(c *cli.Context) error {
 		return errors.New("Bucket name must be specified")
 	}
 
+	var agg core.Aggregator
 	if cfg.ContentAware {
-		agg, err := core.NewAggregator(cfg)
+		agg, err = core.NewEpochAggregator(cfg)
 		if err != nil {
 			return err
 		}
-		return agg.Run()
+	}
+	defer agg.Close()
+	if err := agg.Run(); err != nil {
+		return err
+	}
+	up := core.NewUploader(cfg)
+	for _, f := range agg.GetUploadableFiles() {
+		if err := up.Upload(f); err != nil {
+			return err
+		}
 	}
 	return nil
 }
