@@ -7,7 +7,6 @@ type UploadConfig struct {
 	OutputPrefixKey string
 	Step            int
 	Bucket          string
-	Gzipped         bool
 	MaxRetry        int
 	CPULimit        int
 	MemoryLimit     int

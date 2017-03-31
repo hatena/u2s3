@@ -28,12 +28,12 @@ func NewEpochAggregator(cfg *pkg.UploadConfig) (Aggregator, error) {
 	var reader content.BufferedReader
 	var err error
 	if cfg.FileName != "" {
-		reader, err = content.NewFileReader(cfg.FileName, cfg.Gzipped)
+		reader, err = content.NewFileReader(cfg.FileName)
 		if err != nil {
 			return nil, err
 		}
 	} else {
-		reader = content.NewStdinReader(cfg.Gzipped)
+		reader = content.NewStdinReader()
 	}
 	return &EpochAggregator{
 		reader: reader,

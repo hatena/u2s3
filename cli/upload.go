@@ -19,7 +19,6 @@ func uploadCmd(c *cli.Context) error {
 		OutputPrefixKey: c.String("output"),
 		Step:            c.Int("step"),
 		Bucket:          c.String("bucket"),
-		Gzipped:         c.Bool("gzipeed"),
 		MaxRetry:        c.Int("max-retry"),
 		CPULimit:        c.Int("cpu"),
 		MemoryLimit:     c.Int("memory"),
