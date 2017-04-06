@@ -10,10 +10,18 @@ import (
 	"time"
 
 	gzip "github.com/klauspost/pgzip"
-	"github.com/taku-k/u2s3/pkg"
+	"github.com/taku-k/u2s3/pkg/config"
 	"github.com/taku-k/u2s3/pkg/input/content"
 	"github.com/taku-k/u2s3/pkg/util"
 )
+
+var reTsv = regexp.MustCompile(`(?:^|[ \t])time\:([^\t]+)`)
+
+type EpochAggregator struct {
+	reader content.BufferedReader
+	mngr   *EpochManager
+	config *config.UploadConfig
+}
 
 type Epoch struct {
 	fp       *os.File
@@ -28,15 +36,7 @@ type EpochManager struct {
 	epochs map[string]*Epoch
 }
 
-var reTsv = regexp.MustCompile(`(?:^|[ \t])time\:([^\t]+)`)
-
-type EpochAggregator struct {
-	reader content.BufferedReader
-	mngr   *EpochManager
-	config *pkg.UploadConfig
-}
-
-func NewEpochAggregator(cfg *pkg.UploadConfig) (Aggregator, error) {
+func NewEpochAggregator(cfg *config.UploadConfig) (Aggregator, error) {
 	mngr := NewEpochManager()
 	var reader content.BufferedReader
 	var err error
@@ -145,7 +145,7 @@ func (e *Epoch) GetObjectKey(seq int) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	keyTemp := &pkg.UploadKeyTemplate{
+	keyTemp := &config.UploadKeyTemplate{
 		Output: e.output,
 		Year:   fmt.Sprintf("%04d", t.Year()),
 		Month:  fmt.Sprintf("%02d", t.Month()),

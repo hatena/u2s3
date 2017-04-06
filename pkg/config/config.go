@@ -1,4 +1,4 @@
-package pkg
+package config
 
 type UploadConfig struct {
 	FileName        string

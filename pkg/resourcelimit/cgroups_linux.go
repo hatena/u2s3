@@ -7,7 +7,7 @@ import (
 
 	specs "github.com/opencontainers/runtime-spec/specs-go"
 	"github.com/taku-k/cgroups"
-	"github.com/taku-k/u2s3/pkg"
+	"github.com/taku-k/u2s3/pkg/config"
 )
 
 type CgroupMngr struct {
@@ -15,7 +15,7 @@ type CgroupMngr struct {
 	cfg  *pkg.UploadConfig
 }
 
-func NewCgroupMngr(c *pkg.UploadConfig) (*CgroupMngr, error) {
+func NewCgroupMngr(c *config.UploadConfig) (*CgroupMngr, error) {
 	if !isEnableLimit(c) {
 		return nil, errors.New("No limit resources")
 	}
@@ -42,7 +42,7 @@ func NewCgroupMngr(c *pkg.UploadConfig) (*CgroupMngr, error) {
 	return &CgroupMngr{ctrl, c}, nil
 }
 
-func createCPULimit(c *pkg.UploadConfig) *specs.LinuxCPU {
+func createCPULimit(c *config.UploadConfig) *specs.LinuxCPU {
 	var cpu *specs.LinuxCPU
 	limit := c.CPULimit
 	if limit != 0 {
@@ -54,7 +54,7 @@ func createCPULimit(c *pkg.UploadConfig) *specs.LinuxCPU {
 	return cpu
 }
 
-func createMemoryLimit(c *pkg.UploadConfig) *specs.LinuxMemory {
+func createMemoryLimit(c *config.UploadConfig) *specs.LinuxMemory {
 	var memory *specs.LinuxMemory
 	limit := c.MemoryLimit
 	if limit != 0 {
@@ -66,7 +66,7 @@ func createMemoryLimit(c *pkg.UploadConfig) *specs.LinuxMemory {
 	return memory
 }
 
-func createNetCls(c *pkg.UploadConfig) (*specs.LinuxNetwork, int) {
+func createNetCls(c *config.UploadConfig) (*specs.LinuxNetwork, int) {
 	var network *specs.LinuxNetwork
 	minor := 1
 	if isEnableLimitBW(c) {
@@ -79,7 +79,7 @@ func createNetCls(c *pkg.UploadConfig) (*specs.LinuxNetwork, int) {
 	return network, minor
 }
 
-func isEnableLimit(c *pkg.UploadConfig) bool {
+func isEnableLimit(c *config.UploadConfig) bool {
 	return c.CPULimit > 0 || c.MemoryLimit > 0 || c.RateLimit > 0
 }
 

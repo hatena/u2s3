@@ -7,7 +7,7 @@ import (
 	"regexp"
 	"text/template"
 
-	"github.com/taku-k/u2s3/pkg"
+	"github.com/taku-k/u2s3/pkg/config"
 )
 
 func IsGzipped(fp *os.File) bool {
@@ -41,7 +41,7 @@ func GetParams(regEx, url string) (paramsMap map[string]string) {
 	return
 }
 
-func GenerateUploadKey(keyTemp *pkg.UploadKeyTemplate, keyFmt string) (string, error) {
+func GenerateUploadKey(keyTemp *config.UploadKeyTemplate, keyFmt string) (string, error) {
 	host, err := os.Hostname()
 	if err != nil {
 		return "", err

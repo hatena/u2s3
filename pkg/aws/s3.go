@@ -11,7 +11,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/aws/aws-sdk-go/service/s3/s3iface"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
-	"github.com/taku-k/u2s3/pkg"
+	"github.com/taku-k/u2s3/pkg/config"
 )
 
 type S3Cli struct {
@@ -19,7 +19,7 @@ type S3Cli struct {
 	bucket string
 }
 
-func NewS3Cli(config *pkg.UploadConfig) *S3Cli {
+func NewS3Cli(config *config.UploadConfig) *S3Cli {
 	if os.Getenv("CUSTOM_HOST") != "" {
 		return NewCliForCustom(config)
 	}
@@ -36,7 +36,7 @@ func NewS3Cli(config *pkg.UploadConfig) *S3Cli {
 	return &S3Cli{s3Svc, config.Bucket}
 }
 
-func NewCliForCustom(config *pkg.UploadConfig) *S3Cli {
+func NewCliForCustom(config *config.UploadConfig) *S3Cli {
 	s3Config := &aws.Config{
 		Credentials:      credentials.NewStaticCredentials(os.Getenv("ACCESS_KEY"), os.Getenv("SECRET_KEY"), ""),
 		Endpoint:         aws.String(os.Getenv("CUSTOM_HOST")),

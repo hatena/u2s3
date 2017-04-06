@@ -9,24 +9,24 @@ import (
 	"path/filepath"
 
 	gzip "github.com/klauspost/pgzip"
-	"github.com/taku-k/u2s3/pkg"
+	"github.com/taku-k/u2s3/pkg/config"
 	"github.com/taku-k/u2s3/pkg/util"
 )
+
+type FileAggregator struct {
+	config *config.UploadConfig
+	files  map[string]*File
+}
 
 type File struct {
 	fn      string
 	inFp    *os.File
 	outFp   *os.File
 	keyFmt  string
-	keyTemp *pkg.UploadKeyTemplate
+	keyTemp *config.UploadKeyTemplate
 }
 
-type FileAggregator struct {
-	config *pkg.UploadConfig
-	files  map[string]*File
-}
-
-func NewFileAggregator(cfg *pkg.UploadConfig) (Aggregator, error) {
+func NewFileAggregator(cfg *config.UploadConfig) (Aggregator, error) {
 	if cfg.FileName == "" {
 		return nil, errors.New("Filename must be specified when using filename-aware uploading.")
 	}
@@ -64,7 +64,7 @@ func (a *FileAggregator) Close() {
 
 func NewFile(fn string, nameFmt, keyFmt, output string) *File {
 	params := util.GetParams(nameFmt, fn)
-	keyTemp := &pkg.UploadKeyTemplate{
+	keyTemp := &config.UploadKeyTemplate{
 		Output: output,
 		Year:   params["Year"],
 		Month:  params["Month"],

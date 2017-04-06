@@ -5,14 +5,14 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/taku-k/u2s3/pkg"
+	"github.com/taku-k/u2s3/pkg/config"
 )
 
 const (
 	MAJOR_ID = 10
 )
 
-func createLimitBW(c *pkg.UploadConfig, minor int) error {
+func createLimitBW(c *config.UploadConfig, minor int) error {
 	args := strings.Split(fmt.Sprintf("qdisc del dev %s root", c.Device), " ")
 	_ = exec.Command("tc", args...).Run()
 	args = strings.Split(fmt.Sprintf("qdisc add dev %s root handle %d: htb", c.Device, MAJOR_ID), " ")
@@ -30,11 +30,11 @@ func createLimitBW(c *pkg.UploadConfig, minor int) error {
 	return nil
 }
 
-func deleteLimitBW(c *pkg.UploadConfig) {
+func deleteLimitBW(c *config.UploadConfig) {
 	cmd := fmt.Sprintf("tc qdisc del dev %s root", c.Device)
 	_ = exec.Command(cmd).Run()
 }
 
-func isEnableLimitBW(c *pkg.UploadConfig) bool {
+func isEnableLimitBW(c *config.UploadConfig) bool {
 	return c.RateLimit > 0
 }

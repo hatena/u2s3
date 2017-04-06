@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/taku-k/u2s3/pkg"
 	"github.com/taku-k/u2s3/pkg/aws"
+	"github.com/taku-k/u2s3/pkg/config"
 )
 
 type UploadableFile interface {
@@ -18,7 +18,7 @@ type Uploader struct {
 	cli *aws.S3Cli
 }
 
-func NewUploader(config *pkg.UploadConfig) *Uploader {
+func NewUploader(config *config.UploadConfig) *Uploader {
 	cli := aws.NewS3Cli(config)
 	return &Uploader{cli}
 }

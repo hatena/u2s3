@@ -5,14 +5,14 @@ import (
 	"fmt"
 
 	"github.com/k0kubun/pp"
-	"github.com/taku-k/u2s3/pkg"
+	"github.com/taku-k/u2s3/pkg/config"
 	"github.com/taku-k/u2s3/pkg/core"
 	"github.com/taku-k/u2s3/pkg/resourcelimit"
 	"github.com/urfave/cli"
 )
 
 func uploadLogCmd(c *cli.Context) error {
-	cfg := &pkg.UploadConfig{
+	cfg := &config.UploadConfig{
 		Step:            c.Int("step"),
 		LogFormat:       c.String("log-format"),
 		FileName:        c.String("file"),
@@ -52,7 +52,7 @@ func uploadLogCmd(c *cli.Context) error {
 }
 
 func uploadCmd(c *cli.Context) error {
-	cfg := &pkg.UploadConfig{
+	cfg := &config.UploadConfig{
 		FilenameFormat:  c.String("filename-format"),
 		FileName:        c.String("file"),
 		KeyFormat:       c.String("key-format"),
@@ -90,7 +90,7 @@ func uploadCmd(c *cli.Context) error {
 	return nil
 }
 
-func initResourceLimit(cfg *pkg.UploadConfig) {
+func initResourceLimit(cfg *config.UploadConfig) {
 	cmngr, err := resourcelimit.NewCgroupMngr(cfg)
 	if err == nil {
 		defer cmngr.Close()
