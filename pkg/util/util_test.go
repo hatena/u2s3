@@ -34,7 +34,7 @@ func TestIsGzipped(t *testing.T) {
 		buf.Flush()
 		fp.Seek(0, 0)
 		if IsGzipped(fp) != c.gzipped {
-			t.Errorf("IsGzipped => error: %q", c.gzipped)
+			t.Errorf("IsGzipped => error: %t", c.gzipped)
 		}
 		fp.Close()
 		os.Remove(fp.Name())

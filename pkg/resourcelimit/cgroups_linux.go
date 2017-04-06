@@ -12,7 +12,7 @@ import (
 
 type CgroupMngr struct {
 	ctrl cgroups.Cgroup
-	cfg  *pkg.UploadConfig
+	cfg  *config.UploadConfig
 }
 
 func NewCgroupMngr(c *config.UploadConfig) (*CgroupMngr, error) {
