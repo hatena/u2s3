@@ -1,7 +1,7 @@
 package core
 
 import (
-	"fmt"
+	"log"
 	"os"
 
 	"github.com/taku-k/u2s3/pkg/aws"
@@ -42,6 +42,6 @@ func (u *Uploader) Upload(uf UploadableFile) error {
 	if err := u.cli.Upload(key, uf.GetFile()); err != nil {
 		return err
 	}
-	fmt.Println(key)
+	log.Printf("[info] Uploaded %s\n", key)
 	return nil
 }

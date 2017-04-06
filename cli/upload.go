@@ -2,7 +2,7 @@ package cli
 
 import (
 	"errors"
-	"fmt"
+	"log"
 
 	"github.com/k0kubun/pp"
 	"github.com/taku-k/u2s3/pkg/config"
@@ -74,7 +74,7 @@ func initResourceLimit(cfg *config.UploadConfig) {
 	if err == nil {
 		defer cmngr.Close()
 	} else {
-		fmt.Println(err)
+		log.Printf("[info] %s\n", err)
 	}
 }
 
