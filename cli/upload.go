@@ -26,32 +26,10 @@ func uploadLogCmd(c *cli.Context) error {
 		Device:          c.String("dev"),
 	}
 
-	pp.Println(cfg)
-
-	initResourceLimit(cfg)
-
-	if cfg.Bucket == "" {
-		return errors.New("Bucket name must be specified")
-	}
-
-	agg, err := core.NewEpochAggregator(cfg)
-	if err != nil {
-		return err
-	}
-	defer agg.Close()
-	if err := agg.Run(); err != nil {
-		return err
-	}
-	up := core.NewUploader(cfg)
-	for _, f := range agg.GetUploadableFiles() {
-		if err := up.Upload(f); err != nil {
-			return err
-		}
-	}
-	return nil
+	return uploadCmdBase(cfg, core.NewEpochAggregator)
 }
 
-func uploadCmd(c *cli.Context) error {
+func uploadFileCmd(c *cli.Context) error {
 	cfg := &config.UploadConfig{
 		FilenameFormat:  c.String("filename-format"),
 		FileName:        c.String("file"),
@@ -65,6 +43,10 @@ func uploadCmd(c *cli.Context) error {
 		Device:          c.String("dev"),
 	}
 
+	return uploadCmdBase(cfg, core.NewFileAggregator)
+}
+
+func uploadCmdBase(cfg *config.UploadConfig, newAggFunc func(cfg *config.UploadConfig) (core.Aggregator, error)) error {
 	pp.Println(cfg)
 
 	initResourceLimit(cfg)
@@ -73,7 +55,7 @@ func uploadCmd(c *cli.Context) error {
 		return errors.New("Bucket name must be specified")
 	}
 
-	agg, err := core.NewFileAggregator(cfg)
+	agg, err := newAggFunc(cfg)
 	if err != nil {
 		return err
 	}
@@ -81,11 +63,8 @@ func uploadCmd(c *cli.Context) error {
 	if err := agg.Run(); err != nil {
 		return err
 	}
-	up := core.NewUploader(cfg)
-	for _, f := range agg.GetUploadableFiles() {
-		if err := up.Upload(f); err != nil {
-			return err
-		}
+	if err := upload(cfg, agg); err != nil {
+		return err
 	}
 	return nil
 }
@@ -97,4 +76,14 @@ func initResourceLimit(cfg *config.UploadConfig) {
 	} else {
 		fmt.Println(err)
 	}
+}
+
+func upload(cfg *config.UploadConfig, agg core.Aggregator) error {
+	up := core.NewUploader(cfg)
+	for _, f := range agg.GetUploadableFiles() {
+		if err := up.Upload(f); err != nil {
+			return err
+		}
+	}
+	return nil
 }

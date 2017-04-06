@@ -34,7 +34,7 @@ var commands = []cli.Command{
 	{
 		Name:   "upload-file",
 		Usage:  "Upload a file to S3",
-		Action: uploadCmd,
+		Action: uploadFileCmd,
 		Flags: append(commonFlags,
 			cli.StringFlag{Name: "ff, filename-format", Usage: "file name format e.g. " + `(?<Year>\d{4})-(?<Month>\d{2})-(?<Day>\d{2})`},
 		),
