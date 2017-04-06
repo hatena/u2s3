@@ -63,7 +63,7 @@ func uploadCmdBase(cfg *config.UploadConfig, newAggFunc func(cfg *config.UploadC
 	if err := agg.Run(); err != nil {
 		return err
 	}
-	if err := upload(cfg, agg); err != nil {
+	if err := upload(cfg, agg.GetUploadableFiles()); err != nil {
 		return err
 	}
 	return nil
@@ -78,9 +78,9 @@ func initResourceLimit(cfg *config.UploadConfig) {
 	}
 }
 
-func upload(cfg *config.UploadConfig, agg core.Aggregator) error {
+func upload(cfg *config.UploadConfig, files []core.UploadableFile) error {
 	up := core.NewUploader(cfg)
-	for _, f := range agg.GetUploadableFiles() {
+	for _, f := range files {
 		if err := up.Upload(f); err != nil {
 			return err
 		}

@@ -24,7 +24,7 @@ var commonFlags = []cli.Flag{
 var commands = []cli.Command{
 	{
 		Name:   "upload-log",
-		Usage:  "Upload a log file to S3",
+		Usage:  "Upload log files to S3",
 		Action: uploadLogCmd,
 		Flags: append(commonFlags,
 			cli.IntFlag{Name: "s, step", Value: 30, Usage: "step for splitting logs. (min)"},
@@ -33,8 +33,16 @@ var commands = []cli.Command{
 	},
 	{
 		Name:   "upload-file",
-		Usage:  "Upload a file to S3",
+		Usage:  "Upload files to S3",
 		Action: uploadFileCmd,
+		Flags: append(commonFlags,
+			cli.StringFlag{Name: "ff, filename-format", Usage: "file name format e.g. " + `(?<Year>\d{4})-(?<Month>\d{2})-(?<Day>\d{2})`},
+		),
+	},
+	{
+		Name:   "sync-file",
+		Usage:  "Sync files with S3",
+		Action: syncFileCmd,
 		Flags: append(commonFlags,
 			cli.StringFlag{Name: "ff, filename-format", Usage: "file name format e.g. " + `(?<Year>\d{4})-(?<Month>\d{2})-(?<Day>\d{2})`},
 		),

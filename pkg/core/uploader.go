@@ -9,8 +9,9 @@ import (
 )
 
 type UploadableFile interface {
-	GetObjectKey(seq int) (string, error)
+	GetObjectKey() (string, error)
 	GetFile() *os.File
+	ResetSeq()
 	Flush()
 }
 
@@ -26,12 +27,11 @@ func NewUploader(config *config.UploadConfig) *Uploader {
 func (u *Uploader) Upload(uf UploadableFile) error {
 	uf.Flush()
 
-	seq := 0
 	key := ""
 	var err error
+	uf.ResetSeq()
 	for {
-		seq += 1
-		key, err = uf.GetObjectKey(seq)
+		key, err = uf.GetObjectKey()
 		if err != nil {
 			return err
 		}

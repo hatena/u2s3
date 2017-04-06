@@ -24,6 +24,7 @@ type File struct {
 	outFp   *os.File
 	keyFmt  string
 	keyTemp *config.UploadKeyTemplate
+	seq     int
 }
 
 func NewFileAggregator(cfg *config.UploadConfig) (Aggregator, error) {
@@ -56,6 +57,21 @@ func (a *FileAggregator) GetUploadableFiles() []UploadableFile {
 	return v
 }
 
+func (a *FileAggregator) GenFetchJobs() chan *fetchJob {
+	out := make(chan *fetchJob)
+	go func() {
+		for _, f := range a.files {
+			key, err := f.GetObjectKey()
+			if err != nil {
+				continue
+			}
+			out <- &fetchJob{key, f}
+		}
+		close(out)
+	}()
+	return out
+}
+
 func (a *FileAggregator) Close() {
 	for _, f := range a.files {
 		f.Remove()
@@ -79,16 +95,22 @@ func NewFile(fn string, nameFmt, keyFmt, output string) *File {
 		outFp:   nil,
 		keyFmt:  keyFmt,
 		keyTemp: keyTemp,
+		seq:     0,
 	}
 }
 
-func (f *File) GetObjectKey(seq int) (string, error) {
-	f.keyTemp.Seq = seq
+func (f *File) GetObjectKey() (string, error) {
+	f.seq += 1
+	f.keyTemp.Seq = f.seq
 	return util.GenerateUploadKey(f.keyTemp, f.keyFmt)
 }
 
 func (f *File) GetFile() *os.File {
 	return f.outFp
+}
+
+func (f *File) ResetSeq() {
+	f.seq = 0
 }
 
 func (f *File) Flush() {}

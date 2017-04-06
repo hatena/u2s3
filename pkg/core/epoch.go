@@ -30,6 +30,7 @@ type Epoch struct {
 	epochKey string
 	keyFmt   string
 	output   string
+	seq      int
 }
 
 type EpochManager struct {
@@ -90,6 +91,21 @@ func (a *EpochAggregator) GetUploadableFiles() []UploadableFile {
 	return v
 }
 
+func (a *EpochAggregator) GenFetchJobs() chan *fetchJob {
+	out := make(chan *fetchJob)
+	go func() {
+		for _, e := range a.mngr.epochs {
+			key, err := e.GetObjectKey()
+			if err != nil {
+				continue
+			}
+			out <- &fetchJob{key, e}
+		}
+		close(out)
+	}()
+	return out
+}
+
 func (a *EpochAggregator) Close() {
 	a.reader.Close()
 	a.mngr.Close()
@@ -137,14 +153,16 @@ func NewEpoch(epochKey, keyFmt, output string) (*Epoch, error) {
 		epochKey: epochKey,
 		keyFmt:   keyFmt,
 		output:   output,
+		seq:      0,
 	}, nil
 }
 
-func (e *Epoch) GetObjectKey(seq int) (string, error) {
+func (e *Epoch) GetObjectKey() (string, error) {
 	t, err := time.Parse("20060102150405", e.epochKey)
 	if err != nil {
 		return "", err
 	}
+	e.seq += 1
 	keyTemp := &config.UploadKeyTemplate{
 		Output: e.output,
 		Year:   fmt.Sprintf("%04d", t.Year()),
@@ -153,13 +171,17 @@ func (e *Epoch) GetObjectKey(seq int) (string, error) {
 		Hour:   fmt.Sprintf("%02d", t.Hour()),
 		Minute: fmt.Sprintf("%02d", t.Minute()),
 		Second: fmt.Sprintf("%02d", t.Second()),
-		Seq:    seq,
+		Seq:    e.seq,
 	}
 	return util.GenerateUploadKey(keyTemp, e.keyFmt)
 }
 
 func (e *Epoch) GetFile() *os.File {
 	return e.fp
+}
+
+func (e *Epoch) ResetSeq() {
+	e.seq = 0
 }
 
 func (e *Epoch) Write(l []byte) {
