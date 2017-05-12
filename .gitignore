@@ -1,6 +1,5 @@
 *.test
 .idea
-vendor
 dist
 bin
 .vagrant
