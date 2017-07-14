@@ -25,8 +25,8 @@ type EpochAggregator struct {
 
 type Epoch struct {
 	fp       *os.File
-	buf      *bufio.Writer
-	writer   *gzip.Writer
+	writer   *bufio.Writer
+	gw       *gzip.Writer
 	epochKey string
 	keyFmt   string
 	output   string
@@ -144,12 +144,12 @@ func NewEpoch(epochKey, keyFmt, output string) (*Epoch, error) {
 	if err != nil {
 		return nil, err
 	}
-	buf := bufio.NewWriter(fp)
-	w, _ := gzip.NewWriterLevel(buf, gzip.BestCompression)
+	gw, _ := gzip.NewWriterLevel(fp, gzip.BestCompression)
+	buf := bufio.NewWriter(gw)
 	return &Epoch{
 		fp:       fp,
-		buf:      buf,
-		writer:   w,
+		gw:       gw,
+		writer:   buf,
 		epochKey: epochKey,
 		keyFmt:   keyFmt,
 		output:   output,
@@ -177,7 +177,12 @@ func (e *Epoch) GetObjectKey() (string, error) {
 }
 
 func (e *Epoch) GetFile() *os.File {
-	return e.fp
+	e.Flush()
+	op, err := os.Open(e.fp.Name())
+	if err != nil {
+		panic(err)
+	}
+	return op
 }
 
 func (e *Epoch) ResetSeq() {
@@ -192,14 +197,13 @@ func (e *Epoch) Write(l []byte) {
 }
 
 func (e *Epoch) Flush() {
-	e.writer.Close()
-	e.buf.Flush()
+	e.writer.Flush()
+	e.gw.Close()
+	e.fp.Close()
 }
 
 func (e *Epoch) Remove() {
-	e.writer.Close()
-	e.buf.Flush()
-	e.fp.Close()
+	e.Flush()
 	os.Remove(e.fp.Name())
 }
 
