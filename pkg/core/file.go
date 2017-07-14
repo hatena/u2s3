@@ -106,7 +106,11 @@ func (f *File) GetObjectKey() (string, error) {
 }
 
 func (f *File) GetFile() *os.File {
-	return f.outFp
+	op, err := os.Open(f.outFp.Name())
+	if err != nil {
+		panic(err)
+	}
+	return op
 }
 
 func (f *File) ResetSeq() {
@@ -142,11 +146,13 @@ func (f *File) compress() error {
 		in = inFp
 	}
 	scanner := bufio.NewScanner(in)
-	outBuf := bufio.NewWriter(outFp)
-	w, _ := gzip.NewWriterLevel(outBuf, gzip.BestCompression)
+	gw, _ := gzip.NewWriterLevel(outFp, gzip.BestCompression)
+	w := bufio.NewWriter(gw)
 	for scanner.Scan() {
 		w.Write(scanner.Bytes())
 	}
-	outBuf.Flush()
+	w.Flush()
+	gw.Close()
+	outFp.Close()
 	return nil
 }
