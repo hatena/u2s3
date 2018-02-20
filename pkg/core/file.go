@@ -9,8 +9,8 @@ import (
 	"path/filepath"
 
 	gzip "github.com/klauspost/pgzip"
-	"github.com/taku-k/u2s3/pkg/config"
-	"github.com/taku-k/u2s3/pkg/util"
+	"github.com/hatena/u2s3/pkg/config"
+	"github.com/hatena/u2s3/pkg/util"
 )
 
 type FileAggregator struct {

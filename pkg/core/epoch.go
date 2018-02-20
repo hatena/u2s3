@@ -10,9 +10,9 @@ import (
 	"time"
 
 	gzip "github.com/klauspost/pgzip"
-	"github.com/taku-k/u2s3/pkg/config"
-	"github.com/taku-k/u2s3/pkg/input/content"
-	"github.com/taku-k/u2s3/pkg/util"
+	"github.com/hatena/u2s3/pkg/config"
+	"github.com/hatena/u2s3/pkg/input/content"
+	"github.com/hatena/u2s3/pkg/util"
 )
 
 var reTsv = regexp.MustCompile(`(?:^|[ \t])time\:([^\t]+)`)

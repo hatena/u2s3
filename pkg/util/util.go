@@ -7,7 +7,7 @@ import (
 	"regexp"
 	"text/template"
 
-	"github.com/taku-k/u2s3/pkg/config"
+	"github.com/hatena/u2s3/pkg/config"
 )
 
 func IsGzipped(fp *os.File) bool {

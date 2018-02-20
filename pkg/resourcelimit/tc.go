@@ -5,7 +5,7 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/taku-k/u2s3/pkg/config"
+	"github.com/hatena/u2s3/pkg/config"
 )
 
 const (
