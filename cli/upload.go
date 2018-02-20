@@ -5,9 +5,9 @@ import (
 	"log"
 
 	"github.com/k0kubun/pp"
-	"github.com/taku-k/u2s3/pkg/config"
-	"github.com/taku-k/u2s3/pkg/core"
-	"github.com/taku-k/u2s3/pkg/resourcelimit"
+	"github.com/hatena/u2s3/pkg/config"
+	"github.com/hatena/u2s3/pkg/core"
+	"github.com/hatena/u2s3/pkg/resourcelimit"
 	"github.com/urfave/cli"
 )
 

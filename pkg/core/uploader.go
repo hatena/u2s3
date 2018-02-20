@@ -4,8 +4,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/taku-k/u2s3/pkg/aws"
-	"github.com/taku-k/u2s3/pkg/config"
+	"github.com/hatena/u2s3/pkg/aws"
+	"github.com/hatena/u2s3/pkg/config"
 )
 
 type UploadableFile interface {

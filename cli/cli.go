@@ -57,7 +57,7 @@ func commandNotFound(c *cli.Context, command string) {
 func Main() {
 	app := cli.NewApp()
 	app.Name = "u2s3"
-	app.Version = "0.1.0"
+	app.Version = "0.1.1"
 	app.Author = "taku-k"
 	app.Email = "taakuu19@gmail.com"
 

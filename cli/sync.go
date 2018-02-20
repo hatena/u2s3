@@ -1,8 +1,8 @@
 package cli
 
 import (
-	"github.com/taku-k/u2s3/pkg/config"
-	"github.com/taku-k/u2s3/pkg/core"
+	"github.com/hatena/u2s3/pkg/config"
+	"github.com/hatena/u2s3/pkg/core"
 	"github.com/urfave/cli"
 )
 

@@ -11,7 +11,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/aws/aws-sdk-go/service/s3/s3iface"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
-	"github.com/taku-k/u2s3/pkg/config"
+	"github.com/hatena/u2s3/pkg/config"
 )
 
 type S3Cli struct {
