@@ -22,12 +22,12 @@ func TestGetObjectKey(t *testing.T) {
 	for _, c := range cases {
 		e.epochKey = c.key
 		e.keyFmt = c.format
-		s, err := e.GetObjectKey(c.seq)
+		s, err := e.GetObjectKey()
 		if err != nil {
-			t.Errorf("%q: GetObjectKey(%d) => error: %q", c.desc, c.seq, err)
+			t.Errorf("%q: GetObjectKey() => error: %q", c.desc, err)
 
 		} else if s != c.out {
-			t.Errorf("%q: GetObjectKey(%d) => %s, wants %q", c.desc, c.seq, s, c.out)
+			t.Errorf("%q: GetObjectKey() => %s, wants %q", c.desc, s, c.out)
 		}
 	}
 }
