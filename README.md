@@ -82,3 +82,4 @@ $ go get github.com/hatena/u2s3
 ## Author
 
 [taku-k](https://github.com/taku-k)
+[itchyny](https://github.com/itchyny)
