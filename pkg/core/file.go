@@ -1,7 +1,6 @@
 package core
 
 import (
-	"bufio"
 	"errors"
 	"io"
 	"io/ioutil"
@@ -9,6 +8,7 @@ import (
 	"path/filepath"
 
 	gzip "github.com/klauspost/pgzip"
+
 	"github.com/hatena/u2s3/pkg/config"
 	"github.com/hatena/u2s3/pkg/util"
 )
@@ -145,13 +145,14 @@ func (f *File) compress() error {
 	} else {
 		in = inFp
 	}
-	scanner := bufio.NewScanner(in)
-	gw, _ := gzip.NewWriterLevel(outFp, gzip.BestCompression)
-	w := bufio.NewWriter(gw)
-	for scanner.Scan() {
-		w.Write(scanner.Bytes())
+	gw, err := gzip.NewWriterLevel(outFp, gzip.BestCompression)
+	if err != nil {
+		return err
 	}
-	w.Flush()
+	_, err = io.Copy(gw, in)
+	if err != nil {
+		return err
+	}
 	gw.Close()
 	outFp.Close()
 	return nil
