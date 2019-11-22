@@ -66,12 +66,12 @@ $ u2s3 upload-file \
 To install, use `go get`:
 
 ```bash
-$ go get -d github.com/taku-k/u2s3
+$ go get github.com/hatena/u2s3
 ```
 
 ## Contribution
 
-1. Fork ([https://github.com/taku-k/u2s3/fork](https://github.com/taku-k/u2s3/fork))
+1. Fork ([https://github.com/hatena/u2s3/fork](https://github.com/hatena/u2s3/fork))
 1. Create a feature branch
 1. Commit your changes
 1. Rebase your local changes against the master branch
