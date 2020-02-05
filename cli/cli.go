@@ -54,10 +54,12 @@ func commandNotFound(c *cli.Context, command string) {
 	os.Exit(2)
 }
 
+var version = "unset"
+
 func Main() {
 	app := cli.NewApp()
 	app.Name = "u2s3"
-	app.Version = "0.1.3"
+	app.Version = version
 
 	app.Flags = globalFlags
 	app.Commands = commands

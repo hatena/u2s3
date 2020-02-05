@@ -1,0 +1,23 @@
+project_name: u2s3
+env:
+  - GO111MODULE=on
+builds:
+  - main: .
+    binary: u2s3
+    flags:
+      - -trimpath
+      - -a -tags netgo -installsuffix netgo
+    ldflags:
+      - -s -w -extldflags \"-static\"
+      - -X github.com/hatena/u2s3/cli.version={{.Version}}
+    env:
+      - CGO_ENABLED=0
+archives:
+  - name_template: '{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'
+    replacements:
+      darwin: darwin
+      linux: linux
+      386: i386
+      amd64: x86_64
+release:
+  prerelease: auto
