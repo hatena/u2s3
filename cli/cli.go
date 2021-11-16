@@ -28,7 +28,7 @@ var commands = []cli.Command{
 		Action: uploadLogCmd,
 		Flags: append(commonFlags,
 			cli.IntFlag{Name: "s, step", Value: 30, Usage: "step for splitting logs. (min)"},
-			cli.StringFlag{Name: "l, log-format", Value: "tsv", Usage: "tsv or ssv (default: tsv)"},
+			cli.StringFlag{Name: "l, log-format", Value: "tsv", Usage: "tsv, ssv or jsonl (default: tsv)"},
 		),
 	},
 	{
