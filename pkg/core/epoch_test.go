@@ -34,20 +34,28 @@ func TestGetObjectKey(t *testing.T) {
 
 func TestParseEpoch(t *testing.T) {
 	etests := []struct {
-		desc string
-		in   string
-		out  string
+		desc      string
+		logFormat string
+		in        string
+		out       string
 	}{
-		{"base", "time:24/Feb/2017:10:00:07 +0900\thost:127.0.0.1", "20170224100000"},
-		{"just before begin carried", "time:24/Feb/2017:10:29:59 +0900\thost:127.0.0.1", "20170224100000"},
-		{"just after begin carried", "time:24/Feb/2017:10:30:00 +0900\thost:127.0.0.1", "20170224103000"},
-		{"time is after host", "host:127.0.0.1\ttime:24/Feb/2017:10:00:00 +0900", "20170224100000"},
-		{"time is closed in the bracket", "host:127.0.0.1\ttime:[24/Feb/2017:10:00:00 +0900]", "20170224100000"},
+		{"base", "tsv", "time:24/Feb/2017:10:00:07 +0900\thost:127.0.0.1", "20170224100000"},
+		{"just before begin carried", "tsv", "time:24/Feb/2017:10:29:59 +0900\thost:127.0.0.1", "20170224100000"},
+		{"just after begin carried", "tsv", "time:24/Feb/2017:10:30:00 +0900\thost:127.0.0.1", "20170224103000"},
+		{"time is after host", "tsv", "host:127.0.0.1\ttime:24/Feb/2017:10:00:00 +0900", "20170224100000"},
+		{"time is closed in the bracket", "tsv", "host:127.0.0.1\ttime:[24/Feb/2017:10:00:00 +0900]", "20170224100000"},
+
+		{"base", "jsonl", `{"time": "24/Feb/2017:10:00:07 +0900", "host": "127.0.0.1"}`, "20170224100000"},
+		{"just before begin carried", "jsonl", `{"time": "24/Feb/2017:10:29:59 +0900", "host": "127.0.0.1"}`, "20170224100000"},
+		{"just after begin carried", "jsonl", `{"time": "24/Feb/2017:10:30:00 +0900", "host": "127.0.0.1"}`, "20170224103000"},
+		{"time is after host", "jsonl", `{"host": "127.0.0.1", "time": "24/Feb/2017:10:00:00 +0900"}`, "20170224100000"},
+		{"no spacing", "jsonl", `{"host":"127.0.0.1","time":"24/Feb/2017:10:00:00 +0900"}`, "20170224100000"},
+		{"lots of spacing", "jsonl", `{"host"   :  "127.0.0.1",    "time"   :  "24/Feb/2017:10:00:00 +0900"  }`, "20170224100000"},
 	}
 	for _, tt := range etests {
-		s := parseEpoch(tt.in, "tsv", 30)
+		s := parseEpoch(tt.in, tt.logFormat, 30)
 		if s != tt.out {
-			t.Errorf("%q: parseEpoch(%q) => %s, wants %q", tt.desc, tt.in, s, tt.out)
+			t.Errorf("[%q] %q: parseEpoch(%q) => %s, wants %q", tt.logFormat, tt.desc, tt.in, s, tt.out)
 		}
 	}
 }
