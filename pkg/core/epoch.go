@@ -9,13 +9,14 @@ import (
 	"regexp"
 	"time"
 
-	gzip "github.com/klauspost/pgzip"
 	"github.com/hatena/u2s3/pkg/config"
 	"github.com/hatena/u2s3/pkg/input/content"
 	"github.com/hatena/u2s3/pkg/util"
+	gzip "github.com/klauspost/pgzip"
 )
 
 var reTsv = regexp.MustCompile(`(?:^|[ \t])time\:([^\t]+)`)
+var reJsonl = regexp.MustCompile(`"time"\s*\:\s*"([^"]+)`)
 
 type EpochAggregator struct {
 	reader content.BufferedReader
@@ -127,6 +128,11 @@ func parseEpoch(l, logFormat string, step int) string {
 			}
 		}
 		break
+	case "jsonl":
+		m := reJsonl.FindStringSubmatch(l)
+		if len(m) == 2 {
+			r = m[1]
+		}
 	}
 	if r == "" {
 		return ""
