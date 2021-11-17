@@ -6,7 +6,9 @@ builds:
     binary: u2s3
     flags:
       - -trimpath
-      - -a -tags netgo -installsuffix netgo
+      - -a
+      - -tags=netgo
+      - -installsuffix=netgo
     ldflags:
       - -s -w -extldflags \"-static\"
       - -X github.com/hatena/u2s3/cli.version={{.Version}}
