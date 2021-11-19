@@ -4,6 +4,10 @@
 
 * [Release by go 1.17 by do-su-0805 · Pull Request #16 · hatena/u2s3](https://github.com/hatena/u2s3/pull/16)
 
+### Breaking changes
+
+* Release binary packages format are tar.gz instead of raw binary now.
+
 ## v0.1.4 (2021-11-17) (not released)
 
 * [Add some test-cases for util.TestGetParams by Krout0n · Pull Request #13 · hatena/u2s3](https://github.com/hatena/u2s3/pull/13)
