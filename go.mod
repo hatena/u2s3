@@ -3,7 +3,7 @@ module github.com/hatena/u2s3
 go 1.17
 
 require (
-	github.com/aws/aws-sdk-go v1.6.7
+	github.com/aws/aws-sdk-go v1.33.0
 	github.com/k0kubun/pp v2.3.0+incompatible
 	github.com/klauspost/pgzip v1.0.1
 	github.com/opencontainers/runtime-spec v1.0.0-rc4
@@ -14,9 +14,8 @@ require (
 require (
 	github.com/coreos/go-systemd v0.0.0-20170201104736-e97b35f834b1 // indirect
 	github.com/docker/go-units v0.3.1 // indirect
-	github.com/go-ini/ini v1.23.0 // indirect
 	github.com/godbus/dbus v4.0.1-0.20170303190306-fe0e1d54eaed+incompatible // indirect
-	github.com/jmespath/go-jmespath v0.0.0-20160803190731-bd40a432e4c7 // indirect
+	github.com/jmespath/go-jmespath v0.3.0 // indirect
 	github.com/k0kubun/colorstring v0.0.0-20150214042306-9440f1994b88 // indirect
 	github.com/klauspost/compress v1.2.2-0.20170218081604-14c9a76e3c95 // indirect
 	github.com/klauspost/cpuid v0.0.0-20160302075316-09cded8978dc // indirect
@@ -24,7 +23,6 @@ require (
 	github.com/mattn/go-colorable v0.0.8-0.20170312235756-a392f450ea64 // indirect
 	github.com/mattn/go-isatty v0.0.0-20161123143637-30a891c33c7c // indirect
 	github.com/opencontainers/runc v1.0.0-rc2.0.20170309181334-31980a53ae78 // indirect
-	github.com/smartystreets/goconvey v1.7.2 // indirect
 	github.com/stretchr/testify v1.7.0 // indirect
 	golang.org/x/sys v0.0.0-20190215142949-d0b11bdaac8a // indirect
 )
