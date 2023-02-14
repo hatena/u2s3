@@ -3,7 +3,7 @@ module github.com/hatena/u2s3
 go 1.17
 
 require (
-	github.com/aws/aws-sdk-go v1.33.0
+	github.com/aws/aws-sdk-go v1.34.0
 	github.com/k0kubun/pp v2.3.0+incompatible
 	github.com/klauspost/pgzip v1.0.1
 	github.com/opencontainers/runtime-spec v1.0.0-rc4
