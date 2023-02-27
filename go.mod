@@ -24,5 +24,5 @@ require (
 	github.com/mattn/go-isatty v0.0.0-20161123143637-30a891c33c7c // indirect
 	github.com/opencontainers/runc v1.0.0-rc2.0.20170309181334-31980a53ae78 // indirect
 	github.com/stretchr/testify v1.7.0 // indirect
-	golang.org/x/sys v0.0.0-20190215142949-d0b11bdaac8a // indirect
+	golang.org/x/sys v0.1.0 // indirect
 )
