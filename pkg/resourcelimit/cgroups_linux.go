@@ -6,7 +6,7 @@ import (
 	"strconv"
 
 	specs "github.com/opencontainers/runtime-spec/specs-go"
-	"github.com/taku-k/cgroups"
+	"github.com/containerd/cgroups"
 	"github.com/hatena/u2s3/pkg/config"
 )
 
