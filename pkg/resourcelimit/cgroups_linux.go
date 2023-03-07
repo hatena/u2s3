@@ -5,9 +5,9 @@ import (
 	"os"
 	"strconv"
 
-	specs "github.com/opencontainers/runtime-spec/specs-go"
 	"github.com/containerd/cgroups"
 	"github.com/hatena/u2s3/pkg/config"
+	specs "github.com/opencontainers/runtime-spec/specs-go"
 )
 
 type CgroupMngr struct {
@@ -22,7 +22,7 @@ func NewCgroupMngr(c *config.UploadConfig) (*CgroupMngr, error) {
 	cpu := createCPULimit(c)
 	memory := createMemoryLimit(c)
 	network, minor := createNetCls(c)
-	ctrl, err := cgroups.New(cgroups.V2, cgroups.StaticPath("/u2s3"), &specs.LinuxResources{
+	ctrl, err := cgroups.New(cgroups.V1, cgroups.StaticPath("/u2s3"), &specs.LinuxResources{
 		CPU:     cpu,
 		Memory:  memory,
 		Network: network,
