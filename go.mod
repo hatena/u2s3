@@ -1,6 +1,6 @@
 module github.com/hatena/u2s3
 
-go 1.16
+go 1.20
 
 require (
 	github.com/aws/aws-sdk-go v1.34.0
@@ -8,6 +8,17 @@ require (
 	github.com/klauspost/pgzip v1.0.1
 	github.com/opencontainers/runtime-spec v1.0.3-0.20210326190908-1c3f411f0417
 	github.com/urfave/cli v1.22.1
+)
+
+require (
+	github.com/coreos/go-systemd/v22 v22.3.2 // indirect
+	github.com/cpuguy83/go-md2man/v2 v2.0.0-20190314233015-f79a8a8ca69d // indirect
+	github.com/docker/go-units v0.4.0 // indirect
+	github.com/gogo/protobuf v1.3.2 // indirect
+	github.com/jmespath/go-jmespath v0.3.0 // indirect
+	github.com/russross/blackfriday/v2 v2.0.1 // indirect
+	github.com/shurcooL/sanitized_anchor_name v1.0.0 // indirect
+	golang.org/x/net v0.0.0-20210405180319-a5a99cb37ef4 // indirect
 )
 
 require (
