@@ -18,7 +18,7 @@ require (
 	github.com/jmespath/go-jmespath v0.3.0 // indirect
 	github.com/russross/blackfriday/v2 v2.0.1 // indirect
 	github.com/shurcooL/sanitized_anchor_name v1.0.0 // indirect
-	golang.org/x/net v0.7.0 // indirect
+	golang.org/x/net v0.17.0 // indirect
 )
 
 require (
@@ -30,5 +30,5 @@ require (
 	github.com/klauspost/crc32 v0.0.0-20170210140523-1bab8b35b6bb // indirect
 	github.com/mattn/go-colorable v0.0.8-0.20170312235756-a392f450ea64 // indirect
 	github.com/mattn/go-isatty v0.0.0-20161123143637-30a891c33c7c // indirect
-	golang.org/x/sys v0.5.0 // indirect
+	golang.org/x/sys v0.13.0 // indirect
 )
