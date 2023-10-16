@@ -18,8 +18,8 @@ archives:
   - name_template: >-
       {{- .ProjectName }}_
       {{- if eq .Os "darwin" }}darwin
-      {{- else eq .Os "linux" }}linux
-      {{- else eq .Os "windows" }}windows
+      {{- else if eq .Os "linux" }}linux
+      {{- else if eq .Os "windows" }}windows
       {{- else }}{{- title .Os }}{{ end }}_
       {{- if eq .Arch "amd64" }}x86_64
       {{- else }}{{ .Arch }}{{ end }}
