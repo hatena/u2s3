@@ -115,7 +115,6 @@ func parseEpoch(l, logFormat string, step int) string {
 	r := ""
 	switch logFormat {
 	case "ssv":
-		break
 	case "tsv":
 		m := reTsv.FindStringSubmatch(l)
 		if len(m) == 2 {
@@ -126,7 +125,6 @@ func parseEpoch(l, logFormat string, step int) string {
 				r = r[1 : len(r)-1]
 			}
 		}
-		break
 	case "jsonl":
 		m := reJsonl.FindStringSubmatch(l)
 		if len(m) == 2 {
