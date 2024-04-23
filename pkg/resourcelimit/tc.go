@@ -24,10 +24,7 @@ func createLimitBW(c *config.UploadConfig, minor int) error {
 		return err
 	}
 	args = strings.Split(fmt.Sprintf("filter add dev %s parent %d: protocol ip prio %d handle 1: cgroup", c.Device, MAJOR_ID, MAJOR_ID), " ")
-	if err := exec.Command("tc", args...).Run(); err != nil {
-		return err
-	}
-	return nil
+	return exec.Command("tc", args...).Run()
 }
 
 func deleteLimitBW(c *config.UploadConfig) {

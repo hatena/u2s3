@@ -63,10 +63,7 @@ func uploadCmdBase(cfg *config.UploadConfig, newAggFunc func(cfg *config.UploadC
 	if err := agg.Run(); err != nil {
 		return err
 	}
-	if err := upload(cfg, agg.GetUploadableFiles()); err != nil {
-		return err
-	}
-	return nil
+	return upload(cfg, agg.GetUploadableFiles())
 }
 
 func initResourceLimit(cfg *config.UploadConfig) {
