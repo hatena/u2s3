@@ -49,7 +49,7 @@ func GenerateUploadKey(keyTemp *config.UploadKeyTemplate, keyFmt string) (string
 	temp := template.New("key")
 	template.Must(temp.Parse(keyFmt))
 	var res bytes.Buffer
-	err = temp.Execute(&res, map[string]interface{}{
+	err = temp.Execute(&res, map[string]any{
 		"Output":   keyTemp.Output,
 		"Year":     keyTemp.Year,
 		"Month":    keyTemp.Month,
