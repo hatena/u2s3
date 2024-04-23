@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"os"
 	"regexp"
 	"time"
@@ -146,7 +145,7 @@ func parseEpoch(l, logFormat string, step int) string {
 }
 
 func NewEpoch(epochKey, keyFmt, output string) (*Epoch, error) {
-	fp, err := ioutil.TempFile("", "u2s3")
+	fp, err := os.CreateTemp("", "u2s3")
 	if err != nil {
 		return nil, err
 	}

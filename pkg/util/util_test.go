@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"compress/gzip"
 	"io"
-	"io/ioutil"
 	"os"
 	"reflect"
 	"testing"
@@ -21,7 +20,7 @@ func TestIsGzipped(t *testing.T) {
 
 	var w io.Writer
 	for _, c := range cases {
-		fp, err := ioutil.TempFile("", "u2s3-test")
+		fp, err := os.CreateTemp("", "u2s3-test")
 		if err != nil {
 			break
 		}

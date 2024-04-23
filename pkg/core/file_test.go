@@ -1,7 +1,7 @@
 package core
 
 import (
-	"io/ioutil"
+	"io"
 	"os"
 	"reflect"
 	"testing"
@@ -11,7 +11,7 @@ import (
 
 func TestFileCompress(t *testing.T) {
 	contents := []byte("abc\ndef\nghi")
-	src, err := ioutil.TempFile("", "u2s3")
+	src, err := os.CreateTemp("", "u2s3")
 	if err != nil {
 		t.Fatalf("error: %s", err)
 	}
@@ -28,7 +28,7 @@ func TestFileCompress(t *testing.T) {
 	if err != nil {
 		t.Fatalf("error: %s", err)
 	}
-	got, err := ioutil.ReadAll(outRaw)
+	got, err := io.ReadAll(outRaw)
 	if err != nil {
 		t.Fatalf("error: %s", err)
 	}
