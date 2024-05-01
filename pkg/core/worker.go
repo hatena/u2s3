@@ -16,7 +16,7 @@ func SelectUploadFiles(workerNum int, que fetchQueue) chan UploadableFile {
 	var wg sync.WaitGroup
 	out := make(chan UploadableFile)
 
-	for i := 0; i < workerNum; i++ {
+	for range workerNum {
 		wg.Add(1)
 		go fetch(&wg, que)
 	}

@@ -63,10 +63,10 @@ $ u2s3 upload-file \
 
 ## Install
 
-To install, use `go get`:
+To install, use `go install`:
 
 ```bash
-$ go get github.com/hatena/u2s3
+go install github.com/hatena/u2s3@latest
 ```
 
 ## Contribution

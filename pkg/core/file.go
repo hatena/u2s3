@@ -3,7 +3,6 @@ package core
 import (
 	"errors"
 	"io"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 
@@ -131,7 +130,7 @@ func (f *File) compress() error {
 		return err
 	}
 	f.inFp = inFp
-	outFp, err := ioutil.TempFile("", "u2s3")
+	outFp, err := os.CreateTemp("", "u2s3")
 	if err != nil {
 		return err
 	}

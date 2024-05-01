@@ -68,9 +68,5 @@ func (c *S3Cli) HasKey(key string) bool {
 		Bucket: aws.String(c.bucket),
 		Key:    aws.String(key),
 	})
-	if err != nil {
-		return false
-	}
-	return true
+	return err == nil
 }
-
